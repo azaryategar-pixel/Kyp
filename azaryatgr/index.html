@@ -507,51 +507,76 @@ async function donate() {
 
   /* Simpan donasi */
 
-  const {
-  error
+  /* Buat ID transaksi */
+
+const paymentReference =
+    "KYP-" +
+    Date.now() +
+    "-" +
+    Math.random()
+        .toString(36)
+        .substring(2, 8)
+        .toUpperCase();
+
+
+/* Simpan donasi */
+
+const {
+    error
 } = await supabaseClient
 
-  .from("donations")
+    .from("donations")
 
-  .insert({
+    .insert({
 
-    creator_id: creator.id,
+        creator_id: creator.id,
 
-    amount: amount,
+        amount: amount,
 
-    donor_name:
-      anonymous
-        ? "Anonymous"
-        : (name || "Anonymous"),
+        donor_name:
+            anonymous
+                ? "Anonymous"
+                : (name || "Anonymous"),
 
-    message: message,
+        message: message,
 
-    hide_name: anonymous,
+        hide_name: anonymous,
 
-    status: "pending"
+        status: "pending",
 
-  });
+        payment_reference:
+            paymentReference
 
-  if (error) {
+    });
 
-    console.error("VERSI BARU KYP:", error);
+
+if (error) {
+
+    console.error(
+        "VERSI BARU KYP:",
+        error
+    );
 
     alert(
-      "VERSI BARU KYP AKTIF\n\n" +
-      error.message
+        "Donasi gagal disimpan.\n\n" +
+        error.message
     );
 
     return;
-  }
+}
 
 
-  alert(
-    "Donasi berhasil dibuat!\n\n" +
-    "Nominal: Rp" +
-    amount.toLocaleString("id-ID") +
-    "\n\n" +
-    "Status: Menunggu pembayaran"
-  );
+/* Masuk ke halaman checkout */
+
+window.location.href =
+    "checkout.html?ref=" +
+    encodeURIComponent(
+        paymentReference
+    ) +
+    "&amount=" +
+    encodeURIComponent(
+        amount
+    );
 
 
   /* Reset form */
