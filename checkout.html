@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kyp - Pembayaran</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0b0b0f;
+            color: white;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            margin: auto;
+            padding: 30px 20px;
+        }
+
+        .back {
+            display: inline-block;
+            color: #aaa;
+            text-decoration: none;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: #15151b;
+            border: 1px solid #27272a;
+            border-radius: 20px;
+            padding: 25px;
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        .label {
+            color: #a1a1aa;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        .amount {
+            font-size: 36px;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+
+        .reference {
+            background: #0b0b0f;
+            border: 1px solid #27272a;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 8px;
+            word-break: break-all;
+        }
+
+        .payment {
+            margin-top: 25px;
+            padding: 20px;
+            border: 1px solid #27272a;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .payment h3 {
+            margin-top: 0;
+        }
+
+        .button {
+            width: 100%;
+            border: none;
+            background: white;
+            color: black;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <a href="javascript:history.back()" class="back">
+        ← Kembali
+    </a>
+
+    <div class="card">
+
+        <h1>Pembayaran Donasi</h1>
+
+        <p style="color:#a1a1aa;">
+            Selesaikan pembayaran donasi kamu.
+        </p>
+
+        <div class="label">
+            Nominal Donasi
+        </div>
+
+        <div class="amount" id="amount">
+            Rp0
+        </div>
+
+        <div class="label">
+            ID Transaksi
+        </div>
+
+        <div class="reference" id="reference">
+            -
+        </div>
+
+        <div class="payment">
+
+            <h3>💳 Metode Pembayaran</h3>
+
+            <p style="color:#a1a1aa;">
+                QRIS akan tersedia di sini.
+            </p>
+
+            <button class="button">
+                Bayar Sekarang
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+const amount =
+    Number(
+        params.get("amount")
+    );
+
+const reference =
+    params.get("ref");
+
+document.getElementById("amount")
+    .textContent =
+    "Rp" +
+    amount.toLocaleString("id-ID");
+
+document.getElementById("reference")
+    .textContent =
+    reference || "-";
+
+</script>
+
+</body>
+</html>
