@@ -508,35 +508,29 @@ async function donate() {
   /* Simpan donasi */
 
   const {
-    data,
-    error
-  } = await supabaseClient
+  error
+} = await supabaseClient
 
-    .from("donations")
+  .from("donations")
 
-    .insert({
+  .insert({
 
-      creator_id: creator.id,
+    creator_id: creator.id,
 
-      amount: amount,
+    amount: amount,
 
-      donor_name:
-        anonymous
-          ? "Anonymous"
-          : (name || "Anonymous"),
+    donor_name:
+      anonymous
+        ? "Anonymous"
+        : (name || "Anonymous"),
 
-      message: message,
+    message: message,
 
-      hide_name: anonymous,
+    hide_name: anonymous,
 
-      status: "pending"
+    status: "pending"
 
-    })
-
-    .select()
-
-    .single();
-
+  });
 
   if (error) {
 
