@@ -1,407 +1,436 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>@azaryatgr - Kyp</title>
+<title>@azaryatgr - Kyp</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #0b0b0f;
-            color: white;
-            min-height: 100vh;
-        }
+body {
+    font-family: Arial, sans-serif;
+    background: #0b0b0f;
+    color: white;
+    min-height: 100vh;
+}
 
-        .container {
-            width: 100%;
-            max-width: 650px;
-            margin: auto;
-            padding: 20px;
-        }
+.container {
+    width: 100%;
+    max-width: 650px;
+    margin: auto;
+    padding: 20px;
+}
 
-        .back {
-            display: inline-block;
-            color: #a1a1aa;
-            text-decoration: none;
-            margin: 15px 0 35px;
-        }
+.back {
+    display: inline-block;
+    color: #a1a1aa;
+    text-decoration: none;
+    margin: 15px 0 35px;
+}
 
-        .profile {
-            text-align: center;
-        }
+.profile {
+    text-align: center;
+}
 
-        .avatar {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            background: #27272a;
-            margin: auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            font-weight: bold;
-            border: 3px solid #3f3f46;
-        }
+.avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: #27272a;
+    margin: auto;
 
-        .username {
-            margin-top: 18px;
-            font-size: 27px;
-            font-weight: bold;
-        }
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-        .verified {
-            color: #60a5fa;
-        }
+    font-size: 32px;
+    font-weight: bold;
 
-        .bio {
-            color: #a1a1aa;
-            margin: 10px auto 25px;
-            line-height: 1.6;
-            max-width: 450px;
-        }
+    border: 3px solid #3f3f46;
+}
 
-        .socials {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 30px;
-        }
+.username {
+    margin-top: 18px;
+    font-size: 27px;
+    font-weight: bold;
+}
 
-        .social {
-            border: 1px solid #333;
-            padding: 8px 14px;
-            border-radius: 10px;
-            color: white;
-            text-decoration: none;
-            font-size: 14px;
-        }
+.verified {
+    color: #60a5fa;
+}
 
-        .donate-card {
-            background: #15151b;
-            border: 1px solid #29292f;
-            border-radius: 20px;
-            padding: 25px;
-            text-align: left;
-        }
+.bio {
+    color: #a1a1aa;
+    margin: 10px auto 25px;
+    line-height: 1.6;
+    max-width: 450px;
+}
 
-        .donate-title {
-            text-align: center;
-            font-size: 23px;
-            font-weight: bold;
-            margin-bottom: 22px;
-        }
+.socials {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
 
-        .amounts {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
+.social {
+    border: 1px solid #333;
+    padding: 8px 14px;
+    border-radius: 10px;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
 
-        .amount {
-            padding: 14px 5px;
-            background: #0b0b0f;
-            color: white;
-            border: 1px solid #333;
-            border-radius: 12px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+.donate-card {
+    background: #15151b;
+    border: 1px solid #29292f;
+    border-radius: 20px;
+    padding: 25px;
+    text-align: left;
+}
 
-        .amount:hover,
-        .amount.active {
-            background: white;
-            color: black;
-        }
+.donate-title {
+    text-align: center;
+    font-size: 23px;
+    font-weight: bold;
+    margin-bottom: 22px;
+}
 
-        label {
-            display: block;
-            margin: 22px 0 8px;
-            font-weight: bold;
-        }
+.amounts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
 
-        input,
-        textarea {
-            width: 100%;
-            background: #0b0b0f;
-            border: 1px solid #333;
-            color: white;
-            padding: 14px;
-            border-radius: 12px;
-            outline: none;
-            font-size: 15px;
-        }
+.amount {
+    padding: 14px 5px;
+    background: #0b0b0f;
+    color: white;
+    border: 1px solid #333;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
 
-        textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
+.amount:hover,
+.amount.active {
+    background: white;
+    color: black;
+}
 
-        .anonymous {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 12px;
-            color: #a1a1aa;
-            font-size: 14px;
-        }
+label {
+    display: block;
+    margin: 22px 0 8px;
+    font-weight: bold;
+}
 
-        .anonymous input {
-            width: auto;
-        }
+input,
+textarea {
+    width: 100%;
+    background: #0b0b0f;
+    border: 1px solid #333;
+    color: white;
+    padding: 14px;
+    border-radius: 12px;
+    outline: none;
+    font-size: 15px;
+}
 
-        .donate-button {
-            width: 100%;
-            margin-top: 22px;
-            padding: 16px;
-            border: none;
-            border-radius: 12px;
-            background: white;
-            color: black;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
 
-        .donate-button:hover {
-            opacity: 0.9;
-        }
+.anonymous {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    color: #a1a1aa;
+    font-size: 14px;
+}
 
-        .recent {
-            margin-top: 30px;
-        }
+.anonymous input {
+    width: auto;
+}
 
-        .recent h2 {
-            font-size: 20px;
-            margin-bottom: 15px;
-        }
+.donate-button {
+    width: 100%;
+    margin-top: 22px;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    background: white;
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
 
-        .support {
-            background: #15151b;
-            border: 1px solid #29292f;
-            border-radius: 14px;
-            padding: 15px;
-            margin-bottom: 10px;
-        }
+.recent {
+    margin-top: 30px;
+}
 
-        .support-top {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 7px;
-        }
+.recent h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
 
-        .support-name {
-            font-weight: bold;
-        }
+.support {
+    background: #15151b;
+    border: 1px solid #29292f;
+    border-radius: 14px;
+    padding: 15px;
+    margin-bottom: 10px;
+}
 
-        .support-amount {
-            font-weight: bold;
-        }
+.support-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 7px;
+}
 
-        .support-message {
-            color: #a1a1aa;
-            font-size: 14px;
-        }
+.support-name {
+    font-weight: bold;
+}
 
-        footer {
-            text-align: center;
-            color: #71717a;
-            padding: 35px 0 20px;
-            font-size: 13px;
-        }
+.support-amount {
+    font-weight: bold;
+}
 
-        @media (max-width: 450px) {
-            .amounts {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-    </style>
+.support-message {
+    color: #a1a1aa;
+    font-size: 14px;
+}
+
+footer {
+    text-align: center;
+    color: #71717a;
+    padding: 35px 0 20px;
+    font-size: 13px;
+}
+
+@media (max-width: 450px) {
+    .amounts {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+</style>
 </head>
 
 <body>
 
 <div class="container">
 
-    <a class="back" href="../index.html">
-        ← Kembali ke Kyp
-    </a>
+<a class="back" href="../index.html">
+← Kembali ke Kyp
+</a>
 
-    <section class="profile">
+<section class="profile">
 
-        <div class="avatar">
-            A
-        </div>
+<div class="avatar">
+A
+</div>
 
-        <div class="username">
-            @azaryatgr <span class="verified">✓</span>
-        </div>
+<div class="username">
+@azaryatgr <span class="verified">✓</span>
+</div>
 
-        <p class="bio">
-            Trading • Crypto • Finance
-            <br>
-            Terima kasih sudah mendukung saya ❤️
-        </p>
+<p class="bio">
+Content Creator
+<br>
+Terima kasih sudah mendukung saya ❤️
+</p>
 
-        <div class="socials">
-            <a class="social" href="#">X</a>
-            <a class="social" href="#">Discord</a>
-            <a class="social" href="#">YouTube</a>
-        </div>
+<div class="socials">
+<a class="social" href="#">Instagram</a>
+<a class="social" href="#">YouTube</a>
+<a class="social" href="#">TikTok</a>
+</div>
 
-    </section>
+</section>
 
-    <section class="donate-card">
 
-        <div class="donate-title">
-            ☕ Dukung Creator Ini
-        </div>
+<section class="donate-card">
 
-        <div class="amounts">
+<div class="donate-title">
+☕ Dukung Creator Ini
+</div>
 
-            <button class="amount" onclick="selectAmount(10000)">
-                Rp10K
-            </button>
+<div class="amounts">
 
-            <button class="amount" onclick="selectAmount(25000)">
-                Rp25K
-            </button>
+<button class="amount" onclick="selectAmount(10000)">
+Rp10K
+</button>
 
-            <button class="amount" onclick="selectAmount(50000)">
-                Rp50K
-            </button>
+<button class="amount" onclick="selectAmount(25000)">
+Rp25K
+</button>
 
-            <button class="amount" onclick="selectAmount(100000)">
-                Rp100K
-            </button>
+<button class="amount" onclick="selectAmount(50000)">
+Rp50K
+</button>
 
-            <button class="amount" onclick="selectAmount(250000)">
-                Rp250K
-            </button>
+<button class="amount" onclick="selectAmount(100000)">
+Rp100K
+</button>
 
-            <button class="amount" onclick="selectAmount(500000)">
-                Rp500K
-            </button>
+<button class="amount" onclick="selectAmount(250000)">
+Rp250K
+</button>
 
-        </div>
-
-        <label>Nominal Donasi</label>
-
-        <input
-            id="amount"
-            type="number"
-            placeholder="Contoh: 50000"
-        >
-
-        <label>Nama</label>
-
-        <input
-            id="name"
-            type="text"
-            placeholder="Nama kamu"
-        >
-
-        <label>Pesan</label>
-
-        <textarea
-            id="message"
-            placeholder="Tulis pesan untuk creator..."
-        ></textarea>
-
-        <label class="anonymous">
-            <input type="checkbox" id="anonymous">
-            Sembunyikan nama saya
-        </label>
-
-        <button
-            class="donate-button"
-            onclick="donate()"
-        >
-            Dukung Sekarang
-        </button>
-
-    </section>
-
-    <section class="recent">
-
-        <h2>💬 Dukungan Terbaru</h2>
-
-        <div class="support">
-            <div class="support-top">
-                <span class="support-name">
-                    Budi
-                </span>
-
-                <span class="support-amount">
-                    Rp50.000
-                </span>
-            </div>
-
-            <div class="support-message">
-                Semangat terus bro! 🔥
-            </div>
-        </div>
-
-        <div class="support">
-            <div class="support-top">
-                <span class="support-name">
-                    Anonymous
-                </span>
-
-                <span class="support-amount">
-                    Rp25.000
-                </span>
-            </div>
-
-            <div class="support-message">
-                Sukses selalu!
-            </div>
-        </div>
-
-    </section>
-
-    <footer>
-        Powered by Kyp.
-    </footer>
+<button class="amount" onclick="selectAmount(500000)">
+Rp500K
+</button>
 
 </div>
+
+
+<label>Nominal Donasi</label>
+
+<input
+id="amount"
+type="number"
+placeholder="Contoh: 50000"
+>
+
+
+<label>Nama</label>
+
+<input
+id="name"
+type="text"
+placeholder="Nama kamu"
+>
+
+
+<label>Pesan</label>
+
+<textarea
+id="message"
+placeholder="Tulis pesan untuk creator..."
+></textarea>
+
+
+<label class="anonymous">
+
+<input type="checkbox" id="anonymous">
+
+Sembunyikan nama saya
+
+</label>
+
+
+<button
+class="donate-button"
+onclick="donate()"
+>
+Dukung Sekarang
+</button>
+
+</section>
+
+
+<section class="recent">
+
+<h2>💬 Dukungan Terbaru</h2>
+
+<div class="support">
+
+<div class="support-top">
+
+<span class="support-name">
+Budi
+</span>
+
+<span class="support-amount">
+Rp50.000
+</span>
+
+</div>
+
+<div class="support-message">
+Semangat terus! 🔥
+</div>
+
+</div>
+
+
+<div class="support">
+
+<div class="support-top">
+
+<span class="support-name">
+Anonymous
+</span>
+
+<span class="support-amount">
+Rp25.000
+</span>
+
+</div>
+
+<div class="support-message">
+Sukses selalu!
+</div>
+
+</div>
+
+</section>
+
+
+<footer>
+Powered by Kyp.
+</footer>
+
+</div>
+
 
 <script>
 
 function selectAmount(amount) {
 
-    document.getElementById("amount").value = amount;
+document.getElementById("amount").value = amount;
 
-    document
-        .querySelectorAll(".amount")
-        .forEach(button => {
-            button.classList.remove("active");
-        });
+document
+.querySelectorAll(".amount")
+.forEach(button => {
+button.classList.remove("active");
+});
 
-    event.target.classList.add("active");
+event.target.classList.add("active");
+
 }
+
 
 function donate() {
 
-    const amount = document.getElementById("amount").value;
+const amount =
+document.getElementById("amount").value;
 
-    if (!amount || amount < 1000) {
-        alert("Masukkan nominal donasi minimal Rp1.000");
-        return;
-    }
+if (!amount || amount < 1000) {
 
-    alert(
-        "Donasi sebesar Rp" +
-        Number(amount).toLocaleString("id-ID") +
-        " siap diproses!"
-    );
+alert(
+"Masukkan nominal donasi minimal Rp1.000"
+);
+
+return;
+
+}
+
+alert(
+"Donasi sebesar Rp" +
+Number(amount).toLocaleString("id-ID") +
+" siap diproses!"
+);
+
 }
 
 </script>
