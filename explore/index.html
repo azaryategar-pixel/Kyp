@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<title>Explore Creator - Kyp</title>
+
+<style>
+
+* {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+
+body {
+font-family: Arial, sans-serif;
+background: #0b0b0f;
+color: white;
+}
+
+.container {
+max-width: 900px;
+margin: auto;
+padding: 20px;
+}
+
+nav {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 15px 0 40px;
+}
+
+.logo {
+font-size: 25px;
+font-weight: bold;
+}
+
+.back {
+color: #a1a1aa;
+text-decoration: none;
+font-size: 14px;
+}
+
+h1 {
+font-size: 42px;
+margin-bottom: 10px;
+}
+
+.subtitle {
+color: #a1a1aa;
+margin-bottom: 30px;
+}
+
+.search {
+width: 100%;
+padding: 16px;
+background: #15151b;
+border: 1px solid #29292f;
+border-radius: 12px;
+color: white;
+font-size: 16px;
+outline: none;
+margin-bottom: 25px;
+}
+
+.creators {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 15px;
+}
+
+.creator {
+background: #15151b;
+border: 1px solid #29292f;
+border-radius: 18px;
+padding: 20px;
+}
+
+.top {
+display: flex;
+align-items: center;
+gap: 14px;
+}
+
+.avatar {
+width: 55px;
+height: 55px;
+border-radius: 50%;
+background: #27272a;
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+font-weight: bold;
+font-size: 20px;
+}
+
+.name {
+font-weight: bold;
+font-size: 17px;
+}
+
+.username {
+color: #a1a1aa;
+font-size: 13px;
+margin-top: 4px;
+}
+
+.bio {
+color: #a1a1aa;
+font-size: 14px;
+line-height: 1.5;
+margin: 18px 0;
+}
+
+.donate {
+display: block;
+width: 100%;
+text-align: center;
+padding: 12px;
+border-radius: 10px;
+background: white;
+color: black;
+text-decoration: none;
+font-weight: bold;
+}
+
+footer {
+text-align: center;
+color: #71717a;
+padding: 50px 0 20px;
+font-size: 13px;
+}
+
+@media (max-width: 650px) {
+
+h1 {
+font-size: 34px;
+}
+
+.creators {
+grid-template-columns: 1fr;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<nav>
+
+<div class="logo">
+Kyp.
+</div>
+
+<a
+class="back"
+href="../index.html"
+>
+← Kembali
+</a>
+
+</nav>
+
+
+<h1>
+Explore Creator
+</h1>
+
+<p class="subtitle">
+Temukan creator favoritmu dan berikan dukungan kepada mereka.
+</p>
+
+
+<input
+class="search"
+type="text"
+id="search"
+placeholder="🔎 Cari creator..."
+onkeyup="searchCreator()"
+>
+
+
+<div
+class="creators"
+id="creators"
+>
+
+
+<!-- CREATOR 1 -->
+
+<div
+class="creator"
+data-name="azaryatgr content creator"
+>
+
+<div class="top">
+
+<div class="avatar">
+A
+</div>
+
+<div>
+
+<div class="name">
+Azaryatgr ✓
+</div>
+
+<div class="username">
+@azaryatgr
+</div>
+
+</div>
+
+</div>
+
+<p class="bio">
+Content Creator
+</p>
+
+<a
+class="donate"
+href="../azaryatgr/"
+>
+Dukung Creator
+</a>
+
+</div>
+
+
+<!-- CREATOR 2 -->
+
+<div
+class="creator"
+data-name="naya music creator"
+>
+
+<div class="top">
+
+<div class="avatar">
+N
+</div>
+
+<div>
+
+<div class="name">
+Naya
+</div>
+
+<div class="username">
+@naya
+</div>
+
+</div>
+
+</div>
+
+<p class="bio">
+Music & Content Creator
+</p>
+
+<a
+class="donate"
+href="#"
+onclick="comingSoon(event)"
+>
+Dukung Creator
+</a>
+
+</div>
+
+
+<!-- CREATOR 3 -->
+
+<div
+class="creator"
+data-name="reno gaming creator"
+>
+
+<div class="top">
+
+<div class="avatar">
+R
+</div>
+
+<div>
+
+<div class="name">
+Reno
+</div>
+
+<div class="username">
+@reno
+</div>
+
+</div>
+
+</div>
+
+<p class="bio">
+Gaming & Entertainment
+</p>
+
+<a
+class="donate"
+href="#"
+onclick="comingSoon(event)"
+>
+Dukung Creator
+</a>
+
+</div>
+
+
+<!-- CREATOR 4 -->
+
+<div
+class="creator"
+data-name="dinda art creator"
+>
+
+<div class="top">
+
+<div class="avatar">
+D
+</div>
+
+<div>
+
+<div class="name">
+Dinda
+</div>
+
+<div class="username">
+@dinda
+</div>
+
+</div>
+
+</div>
+
+<p class="bio">
+Art & Creative Content
+</p>
+
+<a
+class="donate"
+href="#"
+onclick="comingSoon(event)"
+>
+Dukung Creator
+</a>
+
+</div>
+
+
+</div>
+
+
+<footer>
+Powered by Kyp.
+</footer>
+
+</div>
+
+
+<script>
+
+function searchCreator() {
+
+const keyword =
+document
+.getElementById("search")
+.value
+.toLowerCase();
+
+const creators =
+document
+.querySelectorAll(".creator");
+
+creators.forEach(function(creator) {
+
+const name =
+creator.getAttribute("data-name");
+
+if (name.includes(keyword)) {
+
+creator.style.display = "block";
+
+} else {
+
+creator.style.display = "none";
+
+}
+
+});
+
+}
+
+
+function comingSoon(event) {
+
+event.preventDefault();
+
+alert(
+"Creator ini akan segera tersedia di Kyp."
+);
+
+}
+
+</script>
+
+</body>
+</html>
