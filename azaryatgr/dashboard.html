@@ -1216,7 +1216,7 @@ function renderDonations() {
     .toLowerCase();
 
 
-  const status =
+  const statusFilter =
     document.getElementById(
       "statusFilter"
     ).value;
@@ -1230,9 +1230,12 @@ function renderDonations() {
           donation.donor_name ||
           "";
 
-
         const message =
           donation.message ||
+          "";
+
+        const paymentReference =
+          donation.payment_reference ||
           "";
 
 
@@ -1243,13 +1246,17 @@ function renderDonations() {
           ||
           message
             .toLowerCase()
+            .includes(search)
+          ||
+          paymentReference
+            .toLowerCase()
             .includes(search);
 
 
         const matchStatus =
-          status === "all"
+          statusFilter === "all"
           ||
-          donation.status === status;
+          donation.status === statusFilter;
 
 
         return (
@@ -1301,6 +1308,30 @@ function renderDonations() {
             : "pending";
 
 
+        const statusText =
+          status === "paid"
+            ? "PAID"
+            : "PENDING";
+
+
+        const paymentMethod =
+          donation.payment_method ||
+          "Belum dibayar";
+
+
+        const paymentReference =
+          donation.payment_reference ||
+          "-";
+
+
+        const paidAt =
+          donation.paid_at
+            ? formatDate(
+                donation.paid_at
+              )
+            : "-";
+
+
         return `
 
           <div class="donation">
@@ -1338,13 +1369,44 @@ function renderDonations() {
             <div
               class="status-donation ${statusClass}"
             >
-              ${escapeHtml(status)}
+              ${statusText}
             </div>
 
 
             <div class="donation-date">
+              Dibuat:
               ${formatDate(
                 donation.created_at
+              )}
+            </div>
+
+
+            <div class="donation-date">
+              Pembayaran:
+              ${escapeHtml(
+                paymentMethod
+              )}
+            </div>
+
+
+            ${
+              status === "paid"
+              ?
+              `
+                <div class="donation-date">
+                  Dibayar:
+                  ${paidAt}
+                </div>
+              `
+              :
+              ""
+            }
+
+
+            <div class="donation-date">
+              ID Transaksi:
+              ${escapeHtml(
+                paymentReference
               )}
             </div>
 
