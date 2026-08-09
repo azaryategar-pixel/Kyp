@@ -663,6 +663,48 @@ body {
 
   </div>
 
+<div class="stat">
+
+  <div class="stat-title">
+    Donasi Bulan Ini
+  </div>
+
+  <div
+    class="stat-value"
+    id="monthDonation"
+  >
+    Rp0
+  </div>
+
+  <div class="stat-small">
+    Transaksi berhasil
+  </div>
+
+</div>
+
+
+<div class="stat">
+
+  <div class="stat-title">
+    Donasi Terbesar
+  </div>
+
+  <div
+    class="stat-value"
+    id="largestDonation"
+  >
+    Rp0
+  </div>
+
+  <div
+    class="stat-small"
+    id="largestDonationName"
+  >
+    Belum ada donasi
+  </div>
+
+</div>
+  
 
 </div>
 
@@ -1195,6 +1237,97 @@ function updateStatistics() {
       }
     ).length;
 
+/* =========================
+   BULAN INI
+========================= */
+
+const now =
+  new Date();
+
+const currentYear =
+  now.getFullYear();
+
+const currentMonth =
+  now.getMonth();
+
+
+const monthTotal =
+  paidList
+
+    .filter(
+      function(donation) {
+
+        const date =
+          new Date(
+            donation.created_at
+          );
+
+        return (
+          date.getFullYear() === currentYear &&
+          date.getMonth() === currentMonth
+        );
+
+      }
+    )
+
+    .reduce(
+      function(sum, donation) {
+
+        return sum +
+          Number(
+            donation.amount || 0
+          );
+
+      },
+      0
+    );
+
+
+/* =========================
+   DONASI TERBESAR
+========================= */
+
+let largestDonation = 0;
+
+let largestDonationName =
+  "Belum ada donasi";
+
+
+if (paidList.length > 0) {
+
+  const largest =
+    paidList.reduce(
+      function(max, donation) {
+
+        return Number(
+          donation.amount || 0
+        ) >
+        Number(
+          max.amount || 0
+        )
+          ? donation
+          : max;
+
+      }
+    );
+
+
+  largestDonation =
+    Number(
+      largest.amount || 0
+    );
+
+
+  largestDonationName =
+    largest.hide_name
+      ? "Anonymous"
+      : (
+          largest.donor_name ||
+          "Anonymous"
+        );
+
+}
+  
 
   /* =========================
      HARI INI
@@ -1253,12 +1386,29 @@ function updateStatistics() {
 
 
   document.getElementById(
-    "todayDonation"
-  ).textContent =
-    formatRupiah(todayTotal);
+  "todayDonation"
+).textContent =
+  formatRupiah(todayTotal);
+
+
+document.getElementById(
+  "monthDonation"
+).textContent =
+  formatRupiah(monthTotal);
+
+
+document.getElementById(
+  "largestDonation"
+).textContent =
+  formatRupiah(largestDonation);
+
+
+document.getElementById(
+  "largestDonationName"
+).textContent =
+  escapeHtml(largestDonationName);
 
 }
-
 
 /* =========================================
    CHART 7 HARI
