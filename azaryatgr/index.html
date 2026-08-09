@@ -266,27 +266,27 @@ Terima kasih sudah mendukung saya ❤️
 
 <div class="amounts">
 
-<button class="amount" onclick="selectAmount(10000)">
+<button class="amount" onclick="selectAmount(10000, this)">
 Rp10K
 </button>
 
-<button class="amount" onclick="selectAmount(25000)">
+<button class="amount" onclick="selectAmount(25000, this)">
 Rp25K
 </button>
 
-<button class="amount" onclick="selectAmount(50000)">
+<button class="amount" onclick="selectAmount(50000, this)">
 Rp50K
 </button>
 
-<button class="amount" onclick="selectAmount(100000)">
+<button class="amount" onclick="selectAmount(100000, this)">
 Rp100K
 </button>
 
-<button class="amount" onclick="selectAmount(250000)">
+<button class="amount" onclick="selectAmount(250000, this)">
 Rp250K
 </button>
 
-<button class="amount" onclick="selectAmount(500000)">
+<button class="amount" onclick="selectAmount(500000, this)">
 Rp500K
 </button>
 
@@ -414,20 +414,17 @@ const supabaseClient =
    PILIH NOMINAL
 ========================= */
 
-function selectAmount(amount) {
+function selectAmount(amount, button) {
 
   document.getElementById("amount").value = amount;
 
   document
     .querySelectorAll(".amount")
-    .forEach(button => {
-      button.classList.remove("active");
+    .forEach(function(item) {
+      item.classList.remove("active");
     });
 
-  if (event && event.target) {
-    event.target.classList.add("active");
-  }
-
+  button.classList.add("active");
 }
 
 
@@ -601,6 +598,84 @@ window.location.href =
 
 async function loadDonations() {
 
+  const recent =
+    document.querySelector(".recent");
+
+  if (!recent) return;
+
+  recent.innerHTML =
+    `
+      <h2>💬 Dukungan Terbaru</h2>
+
+      <p style="
+        color:#888;
+        text-align:center;
+        padding:20px;
+      ">
+        Memuat dukungan...
+      </p>
+    `;
+
+
+  /* =========================
+     CARI CREATOR
+  ========================= */
+
+  const {
+    data: creator,
+    error: creatorError
+  } = await supabaseClient
+
+    .from("profiles")
+
+    .select(
+      "id, username, display_name"
+    )
+
+    .eq(
+      "username",
+      "azaryatgr"
+    )
+
+    .eq(
+      "is_public",
+      true
+    )
+
+    .single();
+
+
+  if (
+    creatorError ||
+    !creator
+  ) {
+
+    console.error(
+      "Creator error:",
+      creatorError
+    );
+
+    recent.innerHTML =
+      `
+        <h2>💬 Dukungan Terbaru</h2>
+
+        <p style="
+          color:#f87171;
+          text-align:center;
+          padding:20px;
+        ">
+          Creator tidak ditemukan.
+        </p>
+      `;
+
+    return;
+  }
+
+
+  /* =========================
+     AMBIL DONASI CREATOR
+  ========================= */
+
   const {
     data,
     error
@@ -612,7 +687,15 @@ async function loadDonations() {
       "amount, donor_name, message, hide_name, created_at"
     )
 
-    .eq("status", "paid")
+    .eq(
+      "creator_id",
+      creator.id
+    )
+
+    .eq(
+      "status",
+      "paid"
+    )
 
     .order(
       "created_at",
@@ -626,87 +709,128 @@ async function loadDonations() {
 
   if (error) {
 
-    console.error(error);
+    console.error(
+      "Donation error:",
+      error
+    );
+
+    recent.innerHTML =
+      `
+        <h2>💬 Dukungan Terbaru</h2>
+
+        <p style="
+          color:#f87171;
+          text-align:center;
+          padding:20px;
+        ">
+          Gagal memuat dukungan.
+        </p>
+      `;
 
     return;
   }
 
 
-  const recent =
-    document.querySelector(".recent");
-
-
-  if (!recent) return;
-
+  /* =========================
+     HEADER
+  ========================= */
 
   recent.innerHTML =
     "<h2>💬 Dukungan Terbaru</h2>";
 
 
-  if (!data || data.length === 0) {
+  /* =========================
+     BELUM ADA DONASI
+  ========================= */
+
+  if (
+    !data ||
+    data.length === 0
+  ) {
 
     recent.innerHTML +=
-      `<p style="
-        color:#888;
-        text-align:center;
-        padding:20px;
-      ">
-        Belum ada dukungan.
-      </p>`;
+      `
+        <p style="
+          color:#888;
+          text-align:center;
+          padding:20px;
+        ">
+          Belum ada dukungan.
+        </p>
+      `;
 
     return;
   }
 
 
-  data.forEach(donation => {
+  /* =========================
+     RENDER DONASI
+  ========================= */
 
-    const name =
-      donation.hide_name
-        ? "Anonymous"
-        : (
-          donation.donor_name ||
-          "Anonymous"
+  data.forEach(
+    function(donation) {
+
+      const name =
+        donation.hide_name
+          ? "Anonymous"
+          : (
+              donation.donor_name ||
+              "Anonymous"
+            );
+
+
+      const amount =
+        Number(
+          donation.amount || 0
+        ).toLocaleString(
+          "id-ID"
         );
 
 
-    const amount =
-      Number(
-        donation.amount
-      ).toLocaleString("id-ID");
+      const message =
+        donation.message ||
+        "";
 
 
-    const message =
-      donation.message || "";
+      recent.innerHTML +=
+        `
 
+          <div class="support">
 
-    recent.innerHTML += `
+            <div class="support-top">
 
-      <div class="support">
+              <span class="support-name">
+                ${escapeHtml(name)}
+              </span>
 
-        <div class="support-top">
+              <span class="support-amount">
+                Rp${amount}
+              </span>
 
-          <span class="support-name">
-            ${escapeHtml(name)}
-          </span>
+            </div>
 
-          <span class="support-amount">
-            Rp${amount}
-          </span>
+            ${
+              message
+              ?
+              `
+                <div class="support-message">
+                  ${escapeHtml(message)}
+                </div>
+              `
+              :
+              ""
+            }
 
-        </div>
+          </div>
 
-        <div class="support-message">
-          ${escapeHtml(message)}
-        </div>
+        `;
 
-      </div>
-
-    `;
-
-  });
+    }
+  );
 
 }
 
+  
 
 /* =========================
    SECURITY
