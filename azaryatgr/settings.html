@@ -144,7 +144,8 @@ Atur informasi yang akan ditampilkan di halaman donasimu.
 <input
     type="text"
     id="donationLink"
-    placeholder="https://..."
+    placeholder="https://kyp.co.id/..."
+    readonly
 >
 
 <button class="button" id="saveButton" onclick="saveProfile()">
@@ -179,7 +180,8 @@ window.supabase.createClient(
    CREATOR ID
 ========================= */
 
-const creatorId = "azaryatgr";
+let currentUsername = "azaryatgr";
+let currentCreatorId = null;
 
 
 /* =========================
@@ -194,40 +196,77 @@ async function loadProfile() {
     status.textContent =
         "Memuat data...";
 
-    const { data, error } =
-        await supabaseClient
-        .from("profiles")
-        .select("*")
-        .eq("username", creatorId)
-        .maybeSingle();
+    try {
 
-    if (error) {
+        const { data, error } =
+            await supabaseClient
+                .from("profiles")
+                .select(
+                    "id, username, display_name, bio, donation_link"
+                )
+                .eq(
+                    "username",
+                    currentUsername
+                )
+                .maybeSingle();
+
+        if (error) {
+
+            console.error(error);
+
+            status.textContent =
+                "Gagal memuat data.";
+
+            return;
+        }
+
+        if (!data) {
+
+            status.textContent =
+                "Creator tidak ditemukan.";
+
+            return;
+        }
+
+        currentCreatorId =
+            data.id;
+
+        currentUsername =
+            data.username;
+
+        document.getElementById(
+            "displayName"
+        ).value =
+            data.display_name || "";
+
+        document.getElementById(
+            "username"
+        ).value =
+            data.username || "";
+
+        document.getElementById(
+            "bio"
+        ).value =
+            data.bio || "";
+
+        document.getElementById(
+            "donationLink"
+        ).value =
+            "https://kyp.co.id/" +
+            data.username;
+
+        status.textContent = "";
+
+    } catch (error) {
 
         console.error(error);
 
         status.textContent =
-            "Gagal memuat data.";
+            "Terjadi kesalahan saat memuat data.";
 
-        return;
     }
-
-    if (data) {
-
-        document.getElementById("displayName").value =
-            data.display_name || "";
-
-        document.getElementById("username").value =
-            data.username || "";
-
-        document.getElementById("bio").value =
-            data.bio || "";
-
-        document.getElementById("donationLink").value =
-            data.donation_link || "";
-    }
-
-    status.textContent = "";
 }
+
 
 
 /* =========================
@@ -235,42 +274,245 @@ async function loadProfile() {
 ========================= */
 
 async function saveProfile() {
-    const status = document.getElementById("status");
 
-    status.textContent = "Testing Supabase...";
+    const status =
+        document.getElementById("status");
+
+    const saveButton =
+        document.getElementById("saveButton");
+
+    const displayName =
+        document
+            .getElementById("displayName")
+            .value
+            .trim();
+
+    const newUsername =
+        document
+            .getElementById("username")
+            .value
+            .trim()
+            .toLowerCase();
+
+    const bio =
+        document
+            .getElementById("bio")
+            .value
+            .trim();
+
+
+    /* =========================
+       VALIDASI
+    ========================= */
+
+    if (!displayName) {
+
+        status.textContent =
+            "Nama creator wajib diisi.";
+
+        return;
+    }
+
+
+    if (!newUsername) {
+
+        status.textContent =
+            "Username wajib diisi.";
+
+        return;
+    }
+
+
+    if (
+        !/^[a-z0-9_-]{3,30}$/.test(
+            newUsername
+        )
+    ) {
+
+        status.textContent =
+            "Username hanya boleh berisi huruf kecil, angka, _ atau - (3-30 karakter).";
+
+        return;
+    }
+
+
+    if (!currentCreatorId) {
+
+        status.textContent =
+            "Data creator belum siap.";
+
+        return;
+    }
+
+
+    saveButton.disabled = true;
+
+    status.textContent =
+        "Menyimpan...";
+
 
     try {
-        const response = await fetch(
-            SUPABASE_URL + "/rest/v1/profiles?username=eq.azaryatgr",
-            {
-                method: "PATCH",
-                headers: {
-                    "apikey": SUPABASE_KEY,
-                    "Authorization": "Bearer " + SUPABASE_KEY,
-                    "Content-Type": "application/json",
-                    "Prefer": "return=representation"
-                },
-                body: JSON.stringify({
-                    bio: "TEST DARI WEBSITE"
-                })
+
+        /* =========================
+           CEK USERNAME
+        ========================= */
+
+        if (
+            newUsername !==
+            currentUsername
+        ) {
+
+            const {
+                data: existingUser,
+                error: usernameError
+            } =
+                await supabaseClient
+
+                    .from("profiles")
+
+                    .select("id")
+
+                    .eq(
+                        "username",
+                        newUsername
+                    )
+
+                    .maybeSingle();
+
+
+            if (usernameError) {
+
+                console.error(
+                    usernameError
+                );
+
+                status.textContent =
+                    "Gagal mengecek username.";
+
+                return;
             }
-        );
 
-        const text = await response.text();
 
-        console.log("STATUS:", response.status);
-        console.log("RESPONSE:", text);
+            if (
+                existingUser &&
+                existingUser.id !==
+                currentCreatorId
+            ) {
 
-        if (!response.ok) {
-            status.textContent = "ERROR HTTP " + response.status + ": " + text;
+                status.textContent =
+                    "Username tersebut sudah digunakan.";
+
+                return;
+            }
+
+        }
+
+
+        /* =========================
+           UPDATE PROFILE
+        ========================= */
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+
+                .from("profiles")
+
+                .update({
+
+                    display_name:
+                        displayName,
+
+                    username:
+                        newUsername,
+
+                    bio:
+                        bio
+
+                })
+
+                .eq(
+                    "id",
+                    currentCreatorId
+                )
+
+                .select(
+                    "id, username, display_name, bio"
+                )
+
+                .single();
+
+
+        if (error) {
+
+            console.error(
+                "SUPABASE UPDATE ERROR:",
+                error
+            );
+
+            status.textContent =
+                "Gagal menyimpan: " +
+                error.message;
+
             return;
         }
 
-        status.textContent = "BERHASIL UPDATE!";
+
+        /* =========================
+           UPDATE DATA LOKAL
+        ========================= */
+
+        currentUsername =
+            data.username;
+
+        currentCreatorId =
+            data.id;
+
+
+        document.getElementById(
+            "username"
+        ).value =
+            data.username;
+
+        document.getElementById(
+            "displayName"
+        ).value =
+            data.display_name || "";
+
+        document.getElementById(
+            "bio"
+        ).value =
+            data.bio || "";
+
+
+        document.getElementById(
+            "donationLink"
+        ).value =
+            "https://kyp.co.id/" +
+            data.username;
+
+
+        status.textContent =
+            "✓ Pengaturan berhasil disimpan!";
+
+
     } catch (error) {
-        console.error("FETCH ERROR:", error);
-        status.textContent = "FETCH ERROR: " + error.message;
+
+        console.error(error);
+
+        status.textContent =
+            "Terjadi kesalahan: " +
+            error.message;
+
+    } finally {
+
+        saveButton.disabled =
+            false;
+
     }
+
 }
 
 
