@@ -84,7 +84,23 @@ body {
 .header-copy-button:hover {
   opacity: 0.9;
 }
+  
+.header-share-button {
+  text-decoration: none;
+  color: white;
+  background: #18181f;
+  border: 1px solid #292933;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+}
 
+.header-share-button:hover {
+  opacity: 0.9;
+}
+  
 /* =========================
    PROFILE
 ========================= */
@@ -499,7 +515,16 @@ body {
     >
       🔗 Salin Link
     </button>
-
+  
+    <button
+      type="button"
+      class="header-share-button"
+      id="shareDonationLink"
+      onclick="shareDonationLink()"
+    >
+      📤 Bagikan
+    </button>
+    
   </div>
 
 </div>
@@ -836,7 +861,102 @@ async function copyDonationLink() {
   }
 
 }
-  
+
+
+async function shareDonationLink() {
+
+  const link =
+    getDonationLink();
+
+  if (!link) {
+
+    alert(
+      "Data creator belum siap."
+    );
+
+    return;
+
+  }
+
+  const creatorName =
+    creatorData &&
+    creatorData.display_name
+      ? creatorData.display_name
+      : CREATOR_USERNAME;
+
+  const shareData = {
+    title:
+      "Dukung " +
+      creatorName +
+      " di Kyp!",
+    text:
+      "Dukung " +
+      creatorName +
+      " di Kyp!\n\n" +
+      link,
+    url: link
+  };
+
+
+  if (
+    navigator.share
+  ) {
+
+    try {
+
+      await navigator.share(
+        shareData
+      );
+
+    } catch (error) {
+
+      if (
+        error.name !==
+        "AbortError"
+      ) {
+
+        console.error(
+          error
+        );
+
+        alert(
+          "Gagal membagikan link."
+        );
+
+      }
+
+    }
+
+    return;
+
+  }
+
+
+  try {
+
+    await navigator.clipboard.writeText(
+      link
+    );
+
+    alert(
+      "Fitur bagikan tidak tersedia. Link sudah disalin!"
+    );
+
+  } catch (error) {
+
+    console.error(
+      error
+    );
+
+    alert(
+      "Gagal membagikan link."
+    );
+
+  }
+
+}
+
+
 function formatRupiah(amount) {
 
   return "Rp" +
