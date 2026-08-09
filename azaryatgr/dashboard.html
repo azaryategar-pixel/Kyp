@@ -493,21 +493,26 @@ async function loadDashboard() {
     ===================================== */
 
 
-    const total =
-      list.reduce(
+    const paidList =
+    list.filter(
+        function(donation) {
+            return donation.status === "paid";
+        }
+    );
+
+const total =
+    paidList.reduce(
         function(sum, donation) {
 
-          return sum +
-            Number(donation.amount || 0);
+            return sum +
+                Number(donation.amount || 0);
 
         },
         0
-      );
+    );
 
-
-    const count =
-      list.length;
-
+const count =
+    paidList.length;
 
     const pending =
       list.filter(
