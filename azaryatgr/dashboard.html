@@ -769,7 +769,8 @@ const supabaseClient =
 
 const CREATOR_USERNAME =
   "azaryatgr";
-
+const KYP_DOMAIN =
+  "https://kyp.co.id/";
 
 /* =========================================
    DATA
@@ -783,7 +784,59 @@ let creatorData = null;
 /* =========================================
    FORMAT RUPIAH
 ========================================= */
+function getDonationLink() {
 
+  if (!creatorData) {
+    return "";
+  }
+
+  return (
+    KYP_DOMAIN +
+    encodeURIComponent(
+      creatorData.username
+    )
+  );
+
+}
+
+
+async function copyDonationLink() {
+
+  const link =
+    getDonationLink();
+
+  if (!link) {
+
+    alert(
+      "Data creator belum siap."
+    );
+
+    return;
+
+  }
+
+  try {
+
+    await navigator.clipboard.writeText(
+      link
+    );
+
+    alert(
+      "Link donasi berhasil disalin!"
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+      "Gagal menyalin link."
+    );
+
+  }
+
+}
+  
 function formatRupiah(amount) {
 
   return "Rp" +
@@ -879,6 +932,14 @@ async function loadDashboard() {
 
     creatorData =
       creator;
+
+    const donationLink =
+      getDonationLink();
+
+    document.getElementById(
+      "donationLinkButton"
+    ).href =
+      donationLink;
 
 
     /* =========================
