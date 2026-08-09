@@ -1344,50 +1344,52 @@ function startRealtime() {
       )
 
       .subscribe(
-        function(status) {
+  function(status) {
 
-          console.log(
-            "📡 Realtime status:",
-            status
-          );
+    console.log(
+      "📡 Realtime status:",
+      status
+    );
 
-
-          if (
-            status === "SUBSCRIBED"
-          ) {
-
-            console.log(
-              "✅ REALTIME TERHUBUNG!"
-            );
-
-          }
+    alert(
+      "Realtime status: " + status
+    );
 
 
-          if (
-            status === "CHANNEL_ERROR"
-          ) {
+    if (
+      status === "SUBSCRIBED"
+    ) {
 
-            console.error(
-              "❌ REALTIME CHANNEL ERROR"
-            );
-
-          }
-
-
-          if (
-            status === "TIMED_OUT"
-          ) {
-
-            console.error(
-              "⏰ REALTIME TIMEOUT"
-            );
-
-          }
-
-        }
+      console.log(
+        "✅ REALTIME TERHUBUNG!"
       );
 
-}
+    }
+
+
+    if (
+      status === "CHANNEL_ERROR"
+    ) {
+
+      console.error(
+        "❌ REALTIME CHANNEL ERROR"
+      );
+
+    }
+
+
+    if (
+      status === "TIMED_OUT"
+    ) {
+
+      console.error(
+        "⏰ REALTIME TIMEOUT"
+      );
+
+    }
+
+  }
+);
               
 
   
