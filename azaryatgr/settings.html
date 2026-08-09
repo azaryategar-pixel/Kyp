@@ -267,17 +267,19 @@ async function saveProfile() {
     status.textContent =
         "Menyimpan...";
 
-    const { error } =
-        await supabaseClient
-        .from("profiles")
-        .update({
-            display_name: displayName,
-            username: username,
-            bio: bio,
-            donation_link: donationLink
-        })
-        .eq("username", creatorId);
+    const { data, error } = await supabaseClient
+  .from("profiles")
+  .update({
+    display_name: displayName,
+    username: username,
+    bio: bio,
+    donation_link: donationLink
+  })
+  .eq("username", creatorId)
+  .select();
 
+console.log("UPDATE DATA:", data);
+console.log("UPDATE ERROR:", error);
     if (error) {
 
         console.error(error);
