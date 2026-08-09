@@ -235,68 +235,37 @@ async function loadProfile() {
 ========================= */
 
 async function saveProfile() {
+  const button = document.getElementById("saveButton");
+  const status = document.getElementById("status");
 
-    const button =
-        document.getElementById("saveButton");
+  button.disabled = true;
+  status.textContent = "Mencoba menyimpan...";
 
-    const status =
-        document.getElementById("status");
-
-    const displayName =
-        document.getElementById("displayName").value.trim();
-
-    const username =
-        document.getElementById("username").value.trim();
-
-    const bio =
-        document.getElementById("bio").value.trim();
-
-    const donationLink =
-        document.getElementById("donationLink").value.trim();
-
-    if (!displayName || !username) {
-
-        status.textContent =
-            "Nama dan username wajib diisi.";
-
-        return;
-    }
-
-    button.disabled = true;
-
-    status.textContent =
-        "Menyimpan...";
-
-    const { error } = await supabaseClient
+  try {
+    const { data, error } = await supabaseClient
       .from("profiles")
       .update({
-        display_name: displayName,
-        username: username,
-        bio: bio,
-        donation_link: donationLink
-    })
-    .eq("username", creatorId);
+        bio: "TEST Kyp"
+      })
+      .eq("username", "azaryatgr")
+      .select();
 
-   console.log("UPDATE ERROR:", error);
-
+    console.log("DATA:", data);
+    console.log("ERROR:", error);
 
     if (error) {
-
-        console.error(error);
-
-        status.textContent =
-            "Gagal menyimpan: " +
-            error.message;
-
-        button.disabled = false;
-
-        return;
+      status.textContent = "ERROR: " + error.message;
+      console.error(error);
+    } else {
+      status.textContent = "BERHASIL UPDATE!";
     }
 
-    status.textContent =
-        "Pengaturan berhasil disimpan!";
+  } catch (err) {
+    console.error("FETCH ERROR:", err);
+    status.textContent = "FETCH ERROR: " + err.message;
+  }
 
-    button.disabled = false;
+  button.disabled = false;
 }
 
 
