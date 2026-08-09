@@ -1182,7 +1182,8 @@ async function loadDashboard() {
 
     renderDonations();
 
-
+    startRealtime();
+    
   } catch (error) {
 
     console.error(
@@ -1197,7 +1198,105 @@ async function loadDashboard() {
 
 }
 
+/* =========================================
+   REALTIME DONATIONS
+========================================= */
 
+function startRealtime() {
+
+  if (!creatorData) {
+    return;
+  }
+
+  supabaseClient
+    .channel("creator-donations")
+    .on(
+      "postgres_changes",
+      {
+        event: "*",
+        schema: "public",
+        table: "donations",
+        filter:
+          "creator_id=eq." + creatorData.id
+      },
+      function(payload) {
+
+        console.log(
+          "Realtime donation:",
+          payload
+        );
+
+        if (
+          payload.eventType === "INSERT"
+        ) {
+
+          allDonations.unshift(
+            payload.new
+          );
+
+        }
+
+        else if (
+          payload.eventType === "UPDATE"
+        ) {
+
+          const index =
+            allDonations.findIndex(
+              function(donation) {
+
+                return donation.id ===
+                  payload.new.id;
+
+              }
+            );
+
+          if (index !== -1) {
+
+            allDonations[index] =
+              payload.new;
+
+          }
+
+        }
+
+        else if (
+          payload.eventType === "DELETE"
+        ) {
+
+          allDonations =
+            allDonations.filter(
+              function(donation) {
+
+                return donation.id !==
+                  payload.old.id;
+
+              }
+            );
+
+        }
+
+        updateStatistics();
+
+        updateChart();
+
+        renderDonations();
+
+      }
+    )
+    .subscribe(
+      function(status) {
+
+        console.log(
+          "Realtime status:",
+          status
+        );
+
+      }
+    );
+
+}
+
+  
 /* =========================================
    STATISTICS
 ========================================= */
