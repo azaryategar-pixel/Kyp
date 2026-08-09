@@ -235,18 +235,17 @@ footer {
 
 <section class="profile">
 
-<div class="avatar">
+<div class="avatar" id="creatorAvatar">
 A
 </div>
 
 <div class="username">
-@azaryatgr <span class="verified">✓</span>
+<span id="creatorName">@azaryatgr</span>
+<span class="verified">✓</span>
 </div>
 
-<p class="bio">
-Content Creator
-<br>
-Terima kasih sudah mendukung saya ❤️
+<p class="bio" id="creatorBio">
+Memuat profil creator...
 </p>
 
 <div class="socials">
@@ -409,7 +408,53 @@ const supabaseClient =
     SUPABASE_KEY
   );
 
+/* =========================
+   LOAD PROFILE CREATOR
+========================= */
 
+async function loadProfile() {
+
+    const {
+        data: creator,
+        error
+    } = await supabaseClient
+        .from("profiles")
+        .select("username, display_name, bio")
+        .eq("username", "azaryatgr")
+        .eq("is_public", true)
+        .single();
+
+    if (error || !creator) {
+
+        console.error("Profile error:", error);
+
+        document.getElementById("creatorName").textContent =
+            "@azaryatgr";
+
+        document.getElementById("creatorBio").textContent =
+            "Profil creator tidak tersedia.";
+
+        return;
+    }
+
+    const displayName =
+        creator.display_name ||
+        creator.username ||
+        "Creator";
+
+    document.getElementById("creatorName").textContent =
+        displayName;
+
+    document.getElementById("creatorBio").textContent =
+        creator.bio ||
+        "Terima kasih sudah mendukung saya ❤️";
+
+    document.getElementById("creatorAvatar").textContent =
+        displayName.charAt(0).toUpperCase();
+
+    document.title =
+        displayName + " - Kyp";
+}
 /* =========================
    PILIH NOMINAL
 ========================= */
@@ -856,6 +901,7 @@ document.addEventListener(
   "DOMContentLoaded",
   function() {
 
+    loadProfile();
     loadDonations();
 
   }
