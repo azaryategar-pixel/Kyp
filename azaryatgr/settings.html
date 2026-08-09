@@ -131,7 +131,8 @@ Atur informasi yang akan ditampilkan di halaman donasimu.
 <input
     type="text"
     id="username"
-    placeholder="Contoh: azaryatgr"
+    value="azaryatgr"
+    readonly
 >
 
 <label>Bio</label>
@@ -282,64 +283,25 @@ async function saveProfile() {
         document.getElementById("saveButton");
 
     const displayName =
-        document
-            .getElementById("displayName")
-            .value
-            .trim();
-
-    const newUsername =
-        document
-            .getElementById("username")
-            .value
-            .trim()
-            .toLowerCase();
+        document.getElementById("displayName")
+        .value
+        .trim();
 
     const bio =
-        document
-            .getElementById("bio")
-            .value
-            .trim();
+        document.getElementById("bio")
+        .value
+        .trim();
 
+    const donationLink =
+        document.getElementById("donationLink")
+        .value
+        .trim();
 
-    /* =========================
-       VALIDASI
-    ========================= */
 
     if (!displayName) {
 
         status.textContent =
             "Nama creator wajib diisi.";
-
-        return;
-    }
-
-
-    if (!newUsername) {
-
-        status.textContent =
-            "Username wajib diisi.";
-
-        return;
-    }
-
-
-    if (
-        !/^[a-z0-9_-]{3,30}$/.test(
-            newUsername
-        )
-    ) {
-
-        status.textContent =
-            "Username hanya boleh berisi huruf kecil, angka, _ atau - (3-30 karakter).";
-
-        return;
-    }
-
-
-    if (!currentCreatorId) {
-
-        status.textContent =
-            "Data creator belum siap.";
 
         return;
     }
@@ -353,102 +315,39 @@ async function saveProfile() {
 
     try {
 
-        /* =========================
-           CEK USERNAME
-        ========================= */
-
-        if (
-            newUsername !==
-            currentUsername
-        ) {
-
-            const {
-                data: existingUser,
-                error: usernameError
-            } =
-                await supabaseClient
-
-                    .from("profiles")
-
-                    .select("id")
-
-                    .eq(
-                        "username",
-                        newUsername
-                    )
-
-                    .maybeSingle();
-
-
-            if (usernameError) {
-
-                console.error(
-                    usernameError
-                );
-
-                status.textContent =
-                    "Gagal mengecek username.";
-
-                return;
-            }
-
-
-            if (
-                existingUser &&
-                existingUser.id !==
-                currentCreatorId
-            ) {
-
-                status.textContent =
-                    "Username tersebut sudah digunakan.";
-
-                return;
-            }
-
-        }
-
-
-        /* =========================
-           UPDATE PROFILE
-        ========================= */
-
         const {
             data,
             error
-        } =
-            await supabaseClient
+        } = await supabaseClient
 
-                .from("profiles")
+            .from("profiles")
 
-                .update({
+            .update({
 
-                    display_name:
-                        displayName,
+                display_name:
+                    displayName,
 
-                    username:
-                        newUsername,
+                bio:
+                    bio,
 
-                    bio:
-                        bio
+                donation_link:
+                    donationLink
 
-                })
+            })
 
-                .eq(
-                    "id",
-                    currentCreatorId
-                )
+            .eq(
+                "username",
+                "azaryatgr"
+            )
 
-                .select(
-                    "id, username, display_name, bio"
-                )
-
-                .single();
+            .select()
+            .single();
 
 
         if (error) {
 
             console.error(
-                "SUPABASE UPDATE ERROR:",
+                "UPDATE ERROR:",
                 error
             );
 
@@ -460,26 +359,17 @@ async function saveProfile() {
         }
 
 
-        /* =========================
-           UPDATE DATA LOKAL
-        ========================= */
-
-        currentUsername =
-            data.username;
-
-        currentCreatorId =
-            data.id;
+        document.getElementById(
+            "displayName"
+        ).value =
+            data.display_name || "";
 
 
         document.getElementById(
             "username"
         ).value =
-            data.username;
+            "azaryatgr";
 
-        document.getElementById(
-            "displayName"
-        ).value =
-            data.display_name || "";
 
         document.getElementById(
             "bio"
@@ -490,8 +380,7 @@ async function saveProfile() {
         document.getElementById(
             "donationLink"
         ).value =
-            "https://kyp.co.id/" +
-            data.username;
+            data.donation_link || "";
 
 
         status.textContent =
@@ -508,13 +397,14 @@ async function saveProfile() {
 
     } finally {
 
-        saveButton.disabled =
-            false;
+        saveButton.disabled = false;
 
     }
 
 }
 
+    
+                    
 
 /* =========================
    START
