@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Dashboard Kyp</title>
+<title>Dashboard Creator - Kyp</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -24,17 +25,21 @@ body {
 
 .container {
   width: 100%;
-  max-width: 1100px;
+  max-width: 1150px;
   margin: auto;
-  padding: 25px 18px 50px;
+  padding: 25px 18px 60px;
 }
+
+/* =========================
+   HEADER
+========================= */
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 15px;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 }
 
 .logo {
@@ -48,34 +53,55 @@ body {
 
 .header-buttons {
   display: flex;
-  gap: 10px;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
-.header-buttons a {
+.header-buttons a,
+.header-buttons button {
   text-decoration: none;
   color: white;
   background: #18181f;
   border: 1px solid #292933;
-  padding: 10px 15px;
+  padding: 10px 14px;
   border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
 }
+
+/* =========================
+   PROFILE
+========================= */
 
 .profile {
   background: #15151b;
   border: 1px solid #292933;
   border-radius: 18px;
-  padding: 22px;
-  margin-bottom: 22px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.profile-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
 }
 
 .profile-name {
-  font-size: 24px;
+  font-size: 25px;
   font-weight: bold;
   margin-bottom: 5px;
 }
 
 .username {
   color: #a1a1aa;
+}
+
+.bio {
+  color: #a1a1aa;
+  margin-top: 12px;
+  line-height: 1.5;
 }
 
 .status {
@@ -88,11 +114,26 @@ body {
   font-size: 13px;
 }
 
+.main-button {
+  display: inline-block;
+  margin-top: 18px;
+  background: white;
+  color: black;
+  text-decoration: none;
+  padding: 11px 17px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+/* =========================
+   STATISTICS
+========================= */
+
 .stats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 15px;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 .stat {
@@ -113,6 +154,71 @@ body {
   font-weight: bold;
 }
 
+.stat-small {
+  margin-top: 8px;
+  color: #71717a;
+  font-size: 12px;
+}
+
+/* =========================
+   CHART
+========================= */
+
+.chart-card {
+  background: #15151b;
+  border: 1px solid #292933;
+  border-radius: 18px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.chart-title {
+  font-size: 19px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.chart {
+  height: 190px;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  border-bottom: 1px solid #292933;
+  padding: 10px 5px 0;
+}
+
+.chart-day {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 7px;
+}
+
+.bar {
+  width: 100%;
+  max-width: 45px;
+  min-height: 3px;
+  background: #a855f7;
+  border-radius: 7px 7px 0 0;
+}
+
+.bar-value {
+  font-size: 10px;
+  color: #a1a1aa;
+}
+
+.day-label {
+  font-size: 11px;
+  color: #71717a;
+}
+
+/* =========================
+   DONATION CARD
+========================= */
+
 .card {
   background: #15151b;
   border: 1px solid #292933;
@@ -125,10 +231,53 @@ body {
   border-bottom: 1px solid #292933;
 }
 
+.card-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
 .card-header h2 {
   margin: 0;
   font-size: 20px;
 }
+
+/* =========================
+   FILTER
+========================= */
+
+.filters {
+  display: grid;
+  grid-template-columns: 1fr 160px auto;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.filters input,
+.filters select {
+  width: 100%;
+  padding: 11px 12px;
+  background: #0d0d12;
+  color: white;
+  border: 1px solid #292933;
+  border-radius: 10px;
+  outline: none;
+}
+
+.refresh-button {
+  background: #a855f7;
+  color: white;
+  border: none;
+  padding: 11px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* =========================
+   DONATION
+========================= */
 
 .donation {
   padding: 18px 20px;
@@ -160,40 +309,44 @@ body {
   line-height: 1.5;
 }
 
-.status-donation {
-  font-size: 13px;
+.donation-date {
+  color: #71717a;
+  font-size: 12px;
   margin-top: 8px;
+}
+
+.status-donation {
+  display: inline-block;
+  font-size: 12px;
+  margin-top: 9px;
+  padding: 4px 8px;
+  border-radius: 20px;
 }
 
 .pending {
   color: #facc15;
+  background: #2a250d;
 }
 
 .paid {
   color: #4ade80;
+  background: #142518;
 }
 
+/* =========================
+   EMPTY / ERROR
+========================= */
+
 .empty {
-  padding: 35px 20px;
+  padding: 40px 20px;
   text-align: center;
   color: #71717a;
 }
 
 .error {
-  padding: 20px;
+  padding: 25px;
   color: #f87171;
   text-align: center;
-}
-
-.main-button {
-  display: inline-block;
-  margin-top: 20px;
-  background: white;
-  color: black;
-  text-decoration: none;
-  padding: 12px 18px;
-  border-radius: 10px;
-  font-weight: bold;
 }
 
 .loading {
@@ -202,7 +355,42 @@ body {
   color: #a1a1aa;
 }
 
-@media (max-width: 700px) {
+/* =========================
+   FOOTER
+========================= */
+
+.footer-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.footer-actions button {
+  background: #18181f;
+  color: white;
+  border: 1px solid #292933;
+  padding: 11px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 800px) {
+
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+}
+
+@media (max-width: 600px) {
+
+  .container {
+    padding: 18px 12px 40px;
+  }
 
   .header {
     align-items: flex-start;
@@ -213,17 +401,39 @@ body {
     width: 100%;
   }
 
-  .header-buttons a {
+  .header-buttons a,
+  .header-buttons button {
     flex: 1;
     text-align: center;
   }
 
+  .profile-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   .stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .stat {
+    padding: 16px;
+  }
+
+  .stat-value {
+    font-size: 20px;
+  }
+
+  .filters {
     grid-template-columns: 1fr;
   }
 
   .donation-top {
     flex-direction: column;
+  }
+
+  .chart {
+    gap: 5px;
   }
 
 }
@@ -232,130 +442,277 @@ body {
 
 </head>
 
+
 <body>
 
 <div class="container">
 
-  <div class="header">
 
-    <div class="logo">
-      K<span>yp</span>
-    </div>
+<!-- =========================
+     HEADER
+========================= -->
 
-    <div class="header-buttons">
+<div class="header">
 
-      <a href="../index.html">
-        Beranda
-      </a>
-
-      <a href="../azaryatgr/index.html">
-        Halaman Donasi
-      </a>
-      <a href="settings.html">
-        Pengaturan Creator
-      </a>
-    </div>
-
+  <div class="logo">
+    K<span>yp</span>
   </div>
 
+  <div class="header-buttons">
 
-  <div class="profile">
+    <a href="../index.html">
+      Beranda
+    </a>
 
-    <div class="profile-name">
-      Azaryatgr
-    </div>
+    <a href="../azaryatgr/index.html">
+      Halaman Donasi
+    </a>
 
-    <div class="username">
-      @azaryatgr
-    </div>
-
-    <div class="status">
-      ● Creator Aktif
-    </div>
-
-    <br>
-
-    <a
-      class="main-button"
-      href="../azaryatgr/index.html"
-    >
-      Lihat Halaman Donasi
+    <a href="settings.html">
+      Pengaturan
     </a>
 
   </div>
 
+</div>
 
-  <div class="stats">
 
-    <div class="stat">
+<!-- =========================
+     PROFILE
+========================= -->
 
-      <div class="stat-title">
-        Total Donasi
+<div class="profile">
+
+  <div class="profile-top">
+
+    <div>
+
+      <div
+        class="profile-name"
+        id="profileName"
+      >
+        Memuat...
       </div>
 
       <div
-        class="stat-value"
-        id="totalDonation"
+        class="username"
+        id="profileUsername"
       >
-        Rp0
-      </div>
-
-    </div>
-
-
-    <div class="stat">
-
-      <div class="stat-title">
-        Jumlah Donasi
+        @azaryatgr
       </div>
 
       <div
-        class="stat-value"
-        id="donationCount"
+        class="bio"
+        id="profileBio"
       >
-        0
       </div>
 
-    </div>
-
-
-    <div class="stat">
-
-      <div class="stat-title">
-        Menunggu Pembayaran
-      </div>
-
-      <div
-        class="stat-value"
-        id="pendingCount"
-      >
-        0
+      <div class="status">
+        ● Creator Aktif
       </div>
 
     </div>
 
   </div>
 
+  <a
+    class="main-button"
+    href="../azaryatgr/index.html"
+  >
+    Lihat Halaman Donasi
+  </a>
 
-  <div class="card">
+</div>
 
-    <div class="card-header">
+
+<!-- =========================
+     STATISTICS
+========================= -->
+
+<div class="stats">
+
+
+  <div class="stat">
+
+    <div class="stat-title">
+      Total Donasi
+    </div>
+
+    <div
+      class="stat-value"
+      id="totalDonation"
+    >
+      Rp0
+    </div>
+
+    <div class="stat-small">
+      Semua transaksi berhasil
+    </div>
+
+  </div>
+
+
+  <div class="stat">
+
+    <div class="stat-title">
+      Jumlah Donasi
+    </div>
+
+    <div
+      class="stat-value"
+      id="donationCount"
+    >
+      0
+    </div>
+
+    <div class="stat-small">
+      Transaksi berhasil
+    </div>
+
+  </div>
+
+
+  <div class="stat">
+
+    <div class="stat-title">
+      Menunggu Pembayaran
+    </div>
+
+    <div
+      class="stat-value"
+      id="pendingCount"
+    >
+      0
+    </div>
+
+    <div class="stat-small">
+      Belum dibayar
+    </div>
+
+  </div>
+
+
+  <div class="stat">
+
+    <div class="stat-title">
+      Donasi Hari Ini
+    </div>
+
+    <div
+      class="stat-value"
+      id="todayDonation"
+    >
+      Rp0
+    </div>
+
+    <div class="stat-small">
+      Transaksi hari ini
+    </div>
+
+  </div>
+
+
+</div>
+
+
+<!-- =========================
+     CHART
+========================= -->
+
+<div class="chart-card">
+
+  <div class="chart-title">
+    Donasi 7 Hari Terakhir
+  </div>
+
+  <div
+    class="chart"
+    id="donationChart"
+  >
+    <div class="loading">
+      Memuat statistik...
+    </div>
+  </div>
+
+</div>
+
+
+<!-- =========================
+     DONATIONS
+========================= -->
+
+<div class="card">
+
+  <div class="card-header">
+
+    <div class="card-header-top">
 
       <h2>
-        Donasi Terbaru
+        Donasi
       </h2>
+
+      <button
+        class="refresh-button"
+        onclick="loadDashboard()"
+      >
+        Refresh
+      </button>
 
     </div>
 
-    <div id="donationList">
 
-      <div class="loading">
-        Memuat data donasi...
-      </div>
+    <div class="filters">
+
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Cari nama atau pesan..."
+        oninput="renderDonations()"
+      >
+
+
+      <select
+        id="statusFilter"
+        onchange="renderDonations()"
+      >
+
+        <option value="all">
+          Semua
+        </option>
+
+        <option value="paid">
+          Paid
+        </option>
+
+        <option value="pending">
+          Pending
+        </option>
+
+      </select>
+
+
+      <button
+        class="refresh-button"
+        onclick="exportCSV()"
+      >
+        Export CSV
+      </button>
 
     </div>
 
   </div>
+
+
+  <div id="donationList">
+
+    <div class="loading">
+      Memuat data donasi...
+    </div>
+
+  </div>
+
+</div>
+
 
 </div>
 
@@ -366,25 +723,34 @@ body {
    SUPABASE
 ========================================= */
 
-
-/*
-   GANTI 2 BAGIAN DI BAWAH INI
-*/
-
-
 const SUPABASE_URL =
   "https://qgjcnxremlucixexaryj.supabase.co";
 
-
 const SUPABASE_KEY =
   "sb_publishable_MUaoxjo8pjoCS2Jj7BVnAg_EoJXD8XD";
-
 
 const supabaseClient =
   window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
   );
+
+
+/* =========================================
+   CREATOR
+========================================= */
+
+const CREATOR_USERNAME =
+  "azaryatgr";
+
+
+/* =========================================
+   DATA
+========================================= */
+
+let allDonations = [];
+
+let creatorData = null;
 
 
 /* =========================================
@@ -401,14 +767,54 @@ function formatRupiah(amount) {
 
 
 /* =========================================
+   FORMAT DATE
+========================================= */
+
+function formatDate(date) {
+
+  if (!date) {
+    return "-";
+  }
+
+  return new Date(date)
+    .toLocaleString(
+      "id-ID",
+      {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+      }
+    );
+
+}
+
+
+/* =========================================
    LOAD DASHBOARD
 ========================================= */
 
 async function loadDashboard() {
 
+  const listElement =
+    document.getElementById(
+      "donationList"
+    );
+
+  listElement.innerHTML =
+    `
+      <div class="loading">
+        Memuat data...
+      </div>
+    `;
+
+
   try {
 
-    /* Cari creator */
+    /* =========================
+       CREATOR
+    ========================= */
 
     const {
       data: creator,
@@ -417,11 +823,14 @@ async function loadDashboard() {
 
       .from("profiles")
 
-      .select("id, username, display_name")
+      .select(
+        "id, username, display_name, bio"
+      )
 
-      .eq("username", "azaryatgr")
-
-      .eq("is_public", true)
+      .eq(
+        "username",
+        CREATOR_USERNAME
+      )
 
       .single();
 
@@ -429,7 +838,6 @@ async function loadDashboard() {
     if (creatorError) {
 
       console.error(
-        "Creator error:",
         creatorError
       );
 
@@ -442,7 +850,38 @@ async function loadDashboard() {
     }
 
 
-    /* Ambil semua donasi creator */
+    creatorData =
+      creator;
+
+
+    /* =========================
+       PROFILE
+    ========================= */
+
+    document.getElementById(
+      "profileName"
+    ).textContent =
+      creator.display_name ||
+      creator.username ||
+      "Creator";
+
+
+    document.getElementById(
+      "profileUsername"
+    ).textContent =
+      "@" +
+      creator.username;
+
+
+    document.getElementById(
+      "profileBio"
+    ).textContent =
+      creator.bio || "";
+
+
+    /* =========================
+       DONATIONS
+    ========================= */
 
     const {
       data: donations,
@@ -452,7 +891,7 @@ async function loadDashboard() {
       .from("donations")
 
       .select(
-        "amount, donor_name, message, hide_name, status, created_at"
+        "id, amount, donor_name, message, hide_name, status, created_at, payment_reference, payment_method, paid_at"
       )
 
       .eq(
@@ -471,7 +910,6 @@ async function loadDashboard() {
     if (donationError) {
 
       console.error(
-        "Donation error:",
         donationError
       );
 
@@ -484,152 +922,22 @@ async function loadDashboard() {
     }
 
 
-    const list =
+    allDonations =
       donations || [];
 
 
-    /* =====================================
-       STATISTIK
-    ===================================== */
+    updateStatistics();
 
+    updateChart();
 
-    const paidList =
-    list.filter(
-        function(donation) {
-            return donation.status === "paid";
-        }
-    );
-
-const total =
-    paidList.reduce(
-        function(sum, donation) {
-
-            return sum +
-                Number(donation.amount || 0);
-
-        },
-        0
-    );
-
-const count =
-    paidList.length;
-
-    const pending =
-      list.filter(
-        function(donation) {
-
-          return donation.status === "pending";
-
-        }
-      ).length;
-
-
-    document.getElementById(
-      "totalDonation"
-    ).textContent =
-      formatRupiah(total);
-
-
-    document.getElementById(
-      "donationCount"
-    ).textContent =
-      count;
-
-
-    document.getElementById(
-      "pendingCount"
-    ).textContent =
-      pending;
-
-
-    /* =====================================
-       TAMPILKAN DONASI
-    ===================================== */
-
-
-    const donationList =
-      document.getElementById(
-        "donationList"
-      );
-
-
-    if (list.length === 0) {
-
-      donationList.innerHTML =
-        '<div class="empty">' +
-        'Belum ada donasi.' +
-        '</div>';
-
-      return;
-
-    }
-
-
-    donationList.innerHTML =
-      list.map(
-        function(donation) {
-
-          const donor =
-            donation.hide_name
-              ? "Anonymous"
-              : (
-                  donation.donor_name ||
-                  "Anonymous"
-                );
-
-
-          let statusText =
-            donation.status ||
-            "pending";
-
-
-          let statusClass =
-            statusText === "paid"
-              ? "paid"
-              : "pending";
-
-
-          return `
-
-            <div class="donation">
-
-              <div class="donation-top">
-
-                <div class="donor">
-                  ${escapeHtml(donor)}
-                </div>
-
-                <div class="amount">
-                  ${formatRupiah(donation.amount)}
-                </div>
-
-              </div>
-
-              ${
-                donation.message
-                  ? `
-                    <div class="message">
-                      ${escapeHtml(donation.message)}
-                    </div>
-                  `
-                  : ""
-              }
-
-              <div class="status-donation ${statusClass}">
-                Status: ${escapeHtml(statusText)}
-              </div>
-
-            </div>
-
-          `;
-
-        }
-      ).join("");
+    renderDonations();
 
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      error
+    );
 
     showError(
       "Terjadi kesalahan saat memuat dashboard."
@@ -641,13 +949,425 @@ const count =
 
 
 /* =========================================
+   STATISTICS
+========================================= */
+
+function updateStatistics() {
+
+  const paidList =
+    allDonations.filter(
+      function(donation) {
+
+        return donation.status === "paid";
+
+      }
+    );
+
+
+  const total =
+    paidList.reduce(
+      function(sum, donation) {
+
+        return sum +
+          Number(
+            donation.amount || 0
+          );
+
+      },
+      0
+    );
+
+
+  const pending =
+    allDonations.filter(
+      function(donation) {
+
+        return donation.status === "pending";
+
+      }
+    ).length;
+
+
+  /* =========================
+     HARI INI
+  ========================= */
+
+  const now =
+    new Date();
+
+
+  const today =
+    now.toISOString()
+      .slice(0, 10);
+
+
+  const todayTotal =
+    paidList
+
+      .filter(
+        function(donation) {
+
+          return donation.created_at
+            .slice(0, 10) === today;
+
+        }
+      )
+
+      .reduce(
+        function(sum, donation) {
+
+          return sum +
+            Number(
+              donation.amount || 0
+            );
+
+        },
+        0
+      );
+
+
+  document.getElementById(
+    "totalDonation"
+  ).textContent =
+    formatRupiah(total);
+
+
+  document.getElementById(
+    "donationCount"
+  ).textContent =
+    paidList.length;
+
+
+  document.getElementById(
+    "pendingCount"
+  ).textContent =
+    pending;
+
+
+  document.getElementById(
+    "todayDonation"
+  ).textContent =
+    formatRupiah(todayTotal);
+
+}
+
+
+/* =========================================
+   CHART 7 HARI
+========================================= */
+
+function updateChart() {
+
+  const chart =
+    document.getElementById(
+      "donationChart"
+    );
+
+
+  const days = [];
+
+
+  for (
+    let i = 6;
+    i >= 0;
+    i--
+  ) {
+
+    const date =
+      new Date();
+
+    date.setDate(
+      date.getDate() - i
+    );
+
+
+    const key =
+      date.toISOString()
+        .slice(0, 10);
+
+
+    days.push({
+      key: key,
+      total: 0
+    });
+
+  }
+
+
+  allDonations
+
+    .filter(
+      function(donation) {
+
+        return donation.status === "paid";
+
+      }
+    )
+
+    .forEach(
+      function(donation) {
+
+        const key =
+          donation.created_at
+            .slice(0, 10);
+
+
+        const day =
+          days.find(
+            function(item) {
+
+              return item.key === key;
+
+            }
+          );
+
+
+        if (day) {
+
+          day.total +=
+            Number(
+              donation.amount || 0
+            );
+
+        }
+
+      }
+    );
+
+
+  const max =
+    Math.max(
+      ...days.map(
+        function(day) {
+          return day.total;
+        }
+      ),
+      1
+    );
+
+
+  chart.innerHTML =
+    days.map(
+      function(day) {
+
+        const height =
+          Math.max(
+            3,
+            (day.total / max) * 140
+          );
+
+
+        const label =
+          new Date(
+            day.key
+          ).toLocaleDateString(
+            "id-ID",
+            {
+              weekday: "short"
+            }
+          );
+
+
+        return `
+
+          <div class="chart-day">
+
+            <div class="bar-value">
+              ${formatRupiah(day.total)}
+            </div>
+
+            <div
+              class="bar"
+              style="height:${height}px"
+            ></div>
+
+            <div class="day-label">
+              ${label}
+            </div>
+
+          </div>
+
+        `;
+
+      }
+    ).join("");
+
+}
+
+
+/* =========================================
+   RENDER DONATIONS
+========================================= */
+
+function renderDonations() {
+
+  const container =
+    document.getElementById(
+      "donationList"
+    );
+
+
+  const search =
+    (
+      document.getElementById(
+        "searchInput"
+      ).value || ""
+    )
+    .toLowerCase();
+
+
+  const status =
+    document.getElementById(
+      "statusFilter"
+    ).value;
+
+
+  const filtered =
+    allDonations.filter(
+      function(donation) {
+
+        const donor =
+          donation.donor_name ||
+          "";
+
+
+        const message =
+          donation.message ||
+          "";
+
+
+        const matchSearch =
+          donor
+            .toLowerCase()
+            .includes(search)
+          ||
+          message
+            .toLowerCase()
+            .includes(search);
+
+
+        const matchStatus =
+          status === "all"
+          ||
+          donation.status === status;
+
+
+        return (
+          matchSearch &&
+          matchStatus
+        );
+
+      }
+    );
+
+
+  if (
+    filtered.length === 0
+  ) {
+
+    container.innerHTML =
+      `
+        <div class="empty">
+          Tidak ada donasi yang ditemukan.
+        </div>
+      `;
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    filtered.map(
+      function(donation) {
+
+        const donor =
+          donation.hide_name
+            ? "Anonymous"
+            : (
+                donation.donor_name ||
+                "Anonymous"
+              );
+
+
+        const status =
+          donation.status ||
+          "pending";
+
+
+        const statusClass =
+          status === "paid"
+            ? "paid"
+            : "pending";
+
+
+        return `
+
+          <div class="donation">
+
+            <div class="donation-top">
+
+              <div class="donor">
+                ${escapeHtml(donor)}
+              </div>
+
+              <div class="amount">
+                ${formatRupiah(
+                  donation.amount
+                )}
+              </div>
+
+            </div>
+
+
+            ${
+              donation.message
+              ?
+              `
+                <div class="message">
+                  ${escapeHtml(
+                    donation.message
+                  )}
+                </div>
+              `
+              :
+              ""
+            }
+
+
+            <div
+              class="status-donation ${statusClass}"
+            >
+              ${escapeHtml(status)}
+            </div>
+
+
+            <div class="donation-date">
+              ${formatDate(
+                donation.created_at
+              )}
+            </div>
+
+          </div>
+
+        `;
+
+      }
+    ).join("");
+
+}
+
+
+/* =========================================
    ESCAPE HTML
 ========================================= */
 
 function escapeHtml(text) {
 
   const div =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
 
   div.textContent =
     text ?? "";
@@ -676,7 +1396,122 @@ function showError(message) {
 
 
 /* =========================================
-   JALANKAN
+   EXPORT CSV
+========================================= */
+
+function exportCSV() {
+
+  if (
+    allDonations.length === 0
+  ) {
+
+    alert(
+      "Belum ada data donasi."
+    );
+
+    return;
+
+  }
+
+
+  let csv =
+    "Nama,Nominal,Pesan,Status,Tanggal,Payment Reference\n";
+
+
+  allDonations.forEach(
+    function(donation) {
+
+      const name =
+        donation.hide_name
+          ? "Anonymous"
+          : (
+              donation.donor_name ||
+              "Anonymous"
+            );
+
+
+      const row = [
+
+        name,
+
+        donation.amount || 0,
+
+        donation.message || "",
+
+        donation.status || "",
+
+        formatDate(
+          donation.created_at
+        ),
+
+        donation.payment_reference || ""
+
+      ];
+
+
+      csv +=
+        row
+          .map(
+            function(value) {
+
+              return '"' +
+                String(value)
+                  .replace(
+                    /"/g,
+                    '""'
+                  ) +
+                '"';
+
+            }
+          )
+          .join(",") +
+        "\n";
+
+    }
+  );
+
+
+  const blob =
+    new Blob(
+      [csv],
+      {
+        type:
+          "text/csv;charset=utf-8;"
+      }
+    );
+
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  const link =
+    document.createElement(
+      "a"
+    );
+
+
+  link.href =
+    url;
+
+  link.download =
+    "donasi-kyp.csv";
+
+
+  link.click();
+
+
+  URL.revokeObjectURL(
+    url
+  );
+
+}
+
+
+/* =========================================
+   START
 ========================================= */
 
 loadDashboard();
@@ -684,4 +1519,5 @@ loadDashboard();
 </script>
 
 </body>
+
 </html>
