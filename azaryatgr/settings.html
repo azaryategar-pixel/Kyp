@@ -199,74 +199,100 @@ async function loadProfile() {
 
     try {
 
-        const { data, error } =
-            await supabaseClient
-                .from("profiles")
-                .select(
-                    "id, username, display_name, bio, donation_link"
-                )
-                .eq(
-                    "username",
-                    currentUsername
-                )
-                .maybeSingle();
+        const {
+            data,
+            error
+        } = await supabaseClient
+
+            .from("profiles")
+
+            .select(
+                "id, username, display_name, bio, donation_link"
+            )
+
+            .eq(
+                "username",
+                "azaryatgr"
+            )
+
+            .maybeSingle();
+
+
+        console.log(
+            "PROFILE DATA:",
+            data
+        );
+
+        console.log(
+            "PROFILE ERROR:",
+            error
+        );
+
 
         if (error) {
 
-            console.error(error);
+            console.error(
+                "LOAD PROFILE ERROR:",
+                error
+            );
 
             status.textContent =
-                "Gagal memuat data.";
+                "Gagal memuat data: " +
+                error.message;
 
             return;
         }
+
 
         if (!data) {
 
             status.textContent =
-                "Creator tidak ditemukan.";
+                "Profile azaryatgr tidak ditemukan.";
 
             return;
         }
 
-        currentCreatorId =
-            data.id;
-
-        currentUsername =
-            data.username;
 
         document.getElementById(
             "displayName"
         ).value =
             data.display_name || "";
 
+
         document.getElementById(
             "username"
         ).value =
-            data.username || "";
+            "azaryatgr";
+
 
         document.getElementById(
             "bio"
         ).value =
             data.bio || "";
 
+
         document.getElementById(
             "donationLink"
         ).value =
-            "https://kyp.co.id/" +
-            data.username;
+            data.donation_link || "";
 
-        status.textContent = "";
+
+        status.textContent =
+            "Data berhasil dimuat.";
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "LOAD ERROR:",
+            error
+        );
 
         status.textContent =
-            "Terjadi kesalahan saat memuat data.";
-
+            "Terjadi kesalahan: " +
+            error.message;
     }
 }
+        
 
 
 
