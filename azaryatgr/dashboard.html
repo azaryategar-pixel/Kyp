@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard Kyp</title>
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0b0b0f;
+  color: white;
+}
+
+.container {
+  width: 100%;
+  max-width: 1100px;
+  margin: auto;
+  padding: 25px 18px 50px;
+}
+
+/* HEADER */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.logo span {
+  color: #a855f7;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.header-buttons a {
+  text-decoration: none;
+  color: white;
+  background: #18181f;
+  border: 1px solid #292933;
+  padding: 10px 15px;
+  border-radius: 10px;
+}
+
+/* PROFILE */
+
+.profile {
+  background: #15151b;
+  border: 1px solid #292933;
+  border-radius: 18px;
+  padding: 22px;
+  margin-bottom: 22px;
+}
+
+.profile-name {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.username {
+  color: #a1a1aa;
+}
+
+.status {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 10px;
+  border-radius: 20px;
+  background: #172317;
+  color: #4ade80;
+  font-size: 13px;
+}
+
+/* STATISTICS */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.stat {
+  background: #15151b;
+  border: 1px solid #292933;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.stat-title {
+  color: #a1a1aa;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.stat-value {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+/* DONATIONS */
+
+.card {
+  background: #15151b;
+  border: 1px solid #292933;
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 20px;
+  border-bottom: 1px solid #292933;
+}
+
+.card-header h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.donation {
+  padding: 18px 20px;
+  border-bottom: 1px solid #24242d;
+}
+
+.donation:last-child {
+  border-bottom: none;
+}
+
+.donation-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.donor {
+  font-weight: bold;
+}
+
+.amount {
+  font-weight: bold;
+  color: #4ade80;
+}
+
+.message {
+  color: #a1a1aa;
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+.pending {
+  color: #facc15;
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.paid {
+  color: #4ade80;
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.empty {
+  padding: 35px 20px;
+  text-align: center;
+  color: #71717a;
+}
+
+/* BUTTON */
+
+.main-button {
+  display: inline-block;
+  margin-top: 20px;
+  background: white;
+  color: black;
+  text-decoration: none;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+  .header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .header-buttons {
+    width: 100%;
+  }
+
+  .header-buttons a {
+    flex: 1;
+    text-align: center;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .donation-top {
+    flex-direction: column;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+
+  <div class="header">
+
+    <div class="logo">
+      K<span>yp</span>
+    </div>
+
+    <div class="header-buttons">
+
+      <a href="../index.html">
+        Beranda
+      </a>
+
+      <a href="../azaryatgr/index.html">
+        Halaman Donasi
+      </a>
+
+    </div>
+
+  </div>
+
+
+  <!-- PROFILE -->
+
+  <div class="profile">
+
+    <div class="profile-name">
+      Azaryatgr
+    </div>
+
+    <div class="username">
+      @azaryatgr
+    </div>
+
+    <div class="status">
+      ● Creator Aktif
+    </div>
+
+    <br>
+
+    <a
+      class="main-button"
+      href="../azaryatgr/index.html"
+    >
+      Lihat Halaman Donasi
+    </a>
+
+  </div>
+
+
+  <!-- STATISTICS -->
+
+  <div class="stats">
+
+    <div class="stat">
+
+      <div class="stat-title">
+        Total Donasi
+      </div>
+
+      <div class="stat-value">
+        Rp0
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="stat-title">
+        Jumlah Donasi
+      </div>
+
+      <div class="stat-value">
+        0
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="stat-title">
+        Menunggu Pembayaran
+      </div>
+
+      <div class="stat-value">
+        0
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- DONATION LIST -->
+
+  <div class="card">
+
+    <div class="card-header">
+
+      <h2>
+        Donasi Terbaru
+      </h2>
+
+    </div>
+
+
+    <div class="empty">
+
+      Belum ada donasi.
+
+    </div>
+
+  </div>
+
+
+</div>
+
+</body>
+</html>
