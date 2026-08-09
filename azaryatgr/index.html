@@ -236,7 +236,7 @@ footer {
 <section class="profile">
 
 <div class="avatar" id="creatorAvatar">
-A
+    A
 </div>
 
 <div class="username">
@@ -419,7 +419,7 @@ async function loadProfile() {
         error
     } = await supabaseClient
         .from("profiles")
-        .select("username, display_name, bio")
+        .select("username, display_name, bio, avatar_url")
         .eq("username", "azaryatgr")
         .eq("is_public", true)
         .single();
@@ -449,8 +449,19 @@ async function loadProfile() {
         creator.bio ||
         "Terima kasih sudah mendukung saya ❤️";
 
-    document.getElementById("creatorAvatar").textContent =
+    const avatar = document.getElementById("creatorAvatar");
+
+if (creator.avatar_url) {
+    avatar.innerHTML = `
+        <img
+            src="${creator.avatar_url}"
+            alt="${displayName}"
+        >
+    `;
+} else {
+    avatar.textContent =
         displayName.charAt(0).toUpperCase();
+}
 
     document.title =
         displayName + " - Kyp";
