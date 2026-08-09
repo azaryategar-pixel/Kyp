@@ -235,37 +235,42 @@ async function loadProfile() {
 ========================= */
 
 async function saveProfile() {
-  const button = document.getElementById("saveButton");
-  const status = document.getElementById("status");
+    const status = document.getElementById("status");
 
-  button.disabled = true;
-  status.textContent = "Mencoba menyimpan...";
+    status.textContent = "Testing Supabase...";
 
-  try {
-    const { data, error } = await supabaseClient
-      .from("profiles")
-      .update({
-        bio: "TEST Kyp"
-      })
-      .eq("username", "azaryatgr")
-      .select();
+    try {
+        const response = await fetch(
+            SUPABASE_URL + "/rest/v1/profiles?username=eq.azaryatgr",
+            {
+                method: "PATCH",
+                headers: {
+                    "apikey": SUPABASE_KEY,
+                    "Authorization": "Bearer " + SUPABASE_KEY,
+                    "Content-Type": "application/json",
+                    "Prefer": "return=representation"
+                },
+                body: JSON.stringify({
+                    bio: "TEST DARI WEBSITE"
+                })
+            }
+        );
 
-    console.log("DATA:", data);
-    console.log("ERROR:", error);
+        const text = await response.text();
 
-    if (error) {
-      status.textContent = "ERROR: " + error.message;
-      console.error(error);
-    } else {
-      status.textContent = "BERHASIL UPDATE!";
+        console.log("STATUS:", response.status);
+        console.log("RESPONSE:", text);
+
+        if (!response.ok) {
+            status.textContent = "ERROR HTTP " + response.status + ": " + text;
+            return;
+        }
+
+        status.textContent = "BERHASIL UPDATE!";
+    } catch (error) {
+        console.error("FETCH ERROR:", error);
+        status.textContent = "FETCH ERROR: " + error.message;
     }
-
-  } catch (err) {
-    console.error("FETCH ERROR:", err);
-    status.textContent = "FETCH ERROR: " + err.message;
-  }
-
-  button.disabled = false;
 }
 
 
