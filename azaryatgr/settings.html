@@ -282,10 +282,11 @@ async function saveProfile() {
     const saveButton =
         document.getElementById("saveButton");
 
-    const displayName =
-        document.getElementById("displayName")
-        .value
-        .trim();
+    const displayNameInput =
+    document.getElementById("displayName");
+
+const displayName =
+    displayNameInput.value.trim();
 
     const bio =
         document.getElementById("bio")
@@ -300,10 +301,15 @@ async function saveProfile() {
 
     if (!displayName) {
 
-        status.textContent =
-            "Nama creator wajib diisi.";
+    console.log(
+        "DEBUG displayName:",
+        displayNameInput.value
+    );
 
-        return;
+    status.textContent =
+        "Nama Creator terbaca kosong. Coba reload halaman.";
+
+    return;
     }
 
 
