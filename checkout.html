@@ -136,15 +136,29 @@
 
         <div class="payment">
 
-            <h3>💳 Metode Pembayaran</h3>
+    <h3>💳 Metode Pembayaran</h3>
 
-            <p style="color:#a1a1aa;">
-                QRIS akan tersedia di sini.
-            </p>
+    <p style="color:#a1a1aa;">
+        Pilih metode pembayaran yang tersedia.
+    </p>
 
-            <button class="button">
-                Bayar Sekarang
-            </button>
+    <button
+        class="button"
+        id="payButton"
+        onclick="startPayment()"
+    >
+        Bayar Sekarang
+    </button>
+
+    <p
+        id="paymentStatus"
+        style="
+            display:none;
+            color:#a1a1aa;
+            font-size:13px;
+            margin-top:15px;
+        "
+    ></p>
 
         </div>
 
@@ -167,14 +181,103 @@ const amount =
 const reference =
     params.get("ref");
 
-document.getElementById("amount")
-    .textContent =
-    "Rp" +
-    amount.toLocaleString("id-ID");
 
-document.getElementById("reference")
-    .textContent =
-    reference || "-";
+/* =========================
+   TAMPILKAN DATA
+========================= */
+
+if (
+    !reference ||
+    !amount ||
+    amount < 1000
+) {
+
+    document.getElementById(
+        "amount"
+    ).textContent =
+        "Data tidak valid";
+
+    document.getElementById(
+        "reference"
+    ).textContent =
+        "-";
+
+    document.getElementById(
+        "payButton"
+    ).disabled = true;
+
+} else {
+
+    document.getElementById(
+        "amount"
+    ).textContent =
+        "Rp" +
+        amount.toLocaleString("id-ID");
+
+
+    document.getElementById(
+        "reference"
+    ).textContent =
+        reference;
+
+}
+
+
+/* =========================
+   BAYAR
+========================= */
+
+async function startPayment() {
+
+    const button =
+        document.getElementById(
+            "payButton"
+        );
+
+    const status =
+        document.getElementById(
+            "paymentStatus"
+        );
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "Menyiapkan pembayaran...";
+
+
+    status.style.display =
+        "block";
+
+    status.textContent =
+        "Pembayaran sedang disiapkan.";
+
+
+    /*
+      MIDTRANS AKAN DIPASANG DI SINI.
+
+      Untuk sementara akun Midtrans
+      belum aktif.
+    */
+
+
+    setTimeout(
+        function() {
+
+            button.disabled =
+                false;
+
+            button.textContent =
+                "Bayar Sekarang";
+
+            status.textContent =
+                "Payment gateway belum tersedia. Silakan coba lagi nanti.";
+
+        },
+        1000
+    );
+
+}
 
 </script>
 
