@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Dashboard Kyp</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 
@@ -25,8 +28,6 @@ body {
   margin: auto;
   padding: 25px 18px 50px;
 }
-
-/* HEADER */
 
 .header {
   display: flex;
@@ -59,8 +60,6 @@ body {
   border-radius: 10px;
 }
 
-/* PROFILE */
-
 .profile {
   background: #15151b;
   border: 1px solid #292933;
@@ -89,8 +88,6 @@ body {
   font-size: 13px;
 }
 
-/* STATISTICS */
-
 .stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -115,8 +112,6 @@ body {
   font-size: 25px;
   font-weight: bold;
 }
-
-/* DONATIONS */
 
 .card {
   background: #15151b;
@@ -165,16 +160,17 @@ body {
   line-height: 1.5;
 }
 
-.pending {
-  color: #facc15;
+.status-donation {
   font-size: 13px;
   margin-top: 8px;
 }
 
+.pending {
+  color: #facc15;
+}
+
 .paid {
   color: #4ade80;
-  font-size: 13px;
-  margin-top: 8px;
 }
 
 .empty {
@@ -183,7 +179,11 @@ body {
   color: #71717a;
 }
 
-/* BUTTON */
+.error {
+  padding: 20px;
+  color: #f87171;
+  text-align: center;
+}
 
 .main-button {
   display: inline-block;
@@ -196,7 +196,11 @@ body {
   font-weight: bold;
 }
 
-/* MOBILE */
+.loading {
+  padding: 35px 20px;
+  text-align: center;
+  color: #a1a1aa;
+}
 
 @media (max-width: 700px) {
 
@@ -225,13 +229,12 @@ body {
 }
 
 </style>
+
 </head>
 
 <body>
 
 <div class="container">
-
-  <!-- HEADER -->
 
   <div class="header">
 
@@ -253,8 +256,6 @@ body {
 
   </div>
 
-
-  <!-- PROFILE -->
 
   <div class="profile">
 
@@ -282,8 +283,6 @@ body {
   </div>
 
 
-  <!-- STATISTICS -->
-
   <div class="stats">
 
     <div class="stat">
@@ -292,7 +291,10 @@ body {
         Total Donasi
       </div>
 
-      <div class="stat-value">
+      <div
+        class="stat-value"
+        id="totalDonation"
+      >
         Rp0
       </div>
 
@@ -305,7 +307,10 @@ body {
         Jumlah Donasi
       </div>
 
-      <div class="stat-value">
+      <div
+        class="stat-value"
+        id="donationCount"
+      >
         0
       </div>
 
@@ -318,7 +323,10 @@ body {
         Menunggu Pembayaran
       </div>
 
-      <div class="stat-value">
+      <div
+        class="stat-value"
+        id="pendingCount"
+      >
         0
       </div>
 
@@ -326,8 +334,6 @@ body {
 
   </div>
 
-
-  <!-- DONATION LIST -->
 
   <div class="card">
 
@@ -339,17 +345,336 @@ body {
 
     </div>
 
+    <div id="donationList">
 
-    <div class="empty">
-
-      Belum ada donasi.
+      <div class="loading">
+        Memuat data donasi...
+      </div>
 
     </div>
 
   </div>
 
-
 </div>
+
+
+<script>
+
+/* =========================================
+   SUPABASE
+========================================= */
+
+
+/*
+   GANTI 2 BAGIAN DI BAWAH INI
+*/
+
+
+const SUPABASE_URL =
+  "https://qgjcnxremlucixexaryj.supabase.co";
+
+
+const SUPABASE_KEY =
+  "sb_publishable_MUaoxjo8pjoCS2Jj7BVnAg_EoJXD8XD";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* =========================================
+   FORMAT RUPIAH
+========================================= */
+
+function formatRupiah(amount) {
+
+  return "Rp" +
+    Number(amount || 0)
+      .toLocaleString("id-ID");
+
+}
+
+
+/* =========================================
+   LOAD DASHBOARD
+========================================= */
+
+async function loadDashboard() {
+
+  try {
+
+    /* Cari creator */
+
+    const {
+      data: creator,
+      error: creatorError
+    } = await supabaseClient
+
+      .from("profiles")
+
+      .select("id, username, display_name")
+
+      .eq("username", "azaryatgr")
+
+      .eq("is_public", true)
+
+      .single();
+
+
+    if (creatorError) {
+
+      console.error(
+        "Creator error:",
+        creatorError
+      );
+
+      showError(
+        "Creator tidak ditemukan."
+      );
+
+      return;
+
+    }
+
+
+    /* Ambil semua donasi creator */
+
+    const {
+      data: donations,
+      error: donationError
+    } = await supabaseClient
+
+      .from("donations")
+
+      .select(
+        "amount, donor_name, message, hide_name, status, created_at"
+      )
+
+      .eq(
+        "creator_id",
+        creator.id
+      )
+
+      .order(
+        "created_at",
+        {
+          ascending: false
+        }
+      );
+
+
+    if (donationError) {
+
+      console.error(
+        "Donation error:",
+        donationError
+      );
+
+      showError(
+        "Gagal mengambil data donasi."
+      );
+
+      return;
+
+    }
+
+
+    const list =
+      donations || [];
+
+
+    /* =====================================
+       STATISTIK
+    ===================================== */
+
+
+    const total =
+      list.reduce(
+        function(sum, donation) {
+
+          return sum +
+            Number(donation.amount || 0);
+
+        },
+        0
+      );
+
+
+    const count =
+      list.length;
+
+
+    const pending =
+      list.filter(
+        function(donation) {
+
+          return donation.status === "pending";
+
+        }
+      ).length;
+
+
+    document.getElementById(
+      "totalDonation"
+    ).textContent =
+      formatRupiah(total);
+
+
+    document.getElementById(
+      "donationCount"
+    ).textContent =
+      count;
+
+
+    document.getElementById(
+      "pendingCount"
+    ).textContent =
+      pending;
+
+
+    /* =====================================
+       TAMPILKAN DONASI
+    ===================================== */
+
+
+    const donationList =
+      document.getElementById(
+        "donationList"
+      );
+
+
+    if (list.length === 0) {
+
+      donationList.innerHTML =
+        '<div class="empty">' +
+        'Belum ada donasi.' +
+        '</div>';
+
+      return;
+
+    }
+
+
+    donationList.innerHTML =
+      list.map(
+        function(donation) {
+
+          const donor =
+            donation.hide_name
+              ? "Anonymous"
+              : (
+                  donation.donor_name ||
+                  "Anonymous"
+                );
+
+
+          let statusText =
+            donation.status ||
+            "pending";
+
+
+          let statusClass =
+            statusText === "paid"
+              ? "paid"
+              : "pending";
+
+
+          return `
+
+            <div class="donation">
+
+              <div class="donation-top">
+
+                <div class="donor">
+                  ${escapeHtml(donor)}
+                </div>
+
+                <div class="amount">
+                  ${formatRupiah(donation.amount)}
+                </div>
+
+              </div>
+
+              ${
+                donation.message
+                  ? `
+                    <div class="message">
+                      ${escapeHtml(donation.message)}
+                    </div>
+                  `
+                  : ""
+              }
+
+              <div class="status-donation ${statusClass}">
+                Status: ${escapeHtml(statusText)}
+              </div>
+
+            </div>
+
+          `;
+
+        }
+      ).join("");
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    showError(
+      "Terjadi kesalahan saat memuat dashboard."
+    );
+
+  }
+
+}
+
+
+/* =========================================
+   ESCAPE HTML
+========================================= */
+
+function escapeHtml(text) {
+
+  const div =
+    document.createElement("div");
+
+  div.textContent =
+    text ?? "";
+
+  return div.innerHTML;
+
+}
+
+
+/* =========================================
+   ERROR
+========================================= */
+
+function showError(message) {
+
+  document.getElementById(
+    "donationList"
+  ).innerHTML =
+    `
+      <div class="error">
+        ${message}
+      </div>
+    `;
+
+}
+
+
+/* =========================================
+   JALANKAN
+========================================= */
+
+loadDashboard();
+
+</script>
 
 </body>
 </html>
