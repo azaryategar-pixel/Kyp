@@ -1202,99 +1202,193 @@ async function loadDashboard() {
    REALTIME DONATIONS
 ========================================= */
 
+let realtimeChannel = null;
+
 function startRealtime() {
 
   if (!creatorData) {
+    console.log("Realtime: creatorData belum tersedia.");
     return;
   }
 
-  supabaseClient
-    .channel("creator-donations")
-    .on(
-      "postgres_changes",
-      {
-        event: "*",
-        schema: "public",
-        table: "donations",
-        filter:
-          "creator_id=eq." + creatorData.id
-      },
-      function(payload) {
+  /* Hapus channel lama jika ada */
 
-        console.log(
-          "Realtime donation:",
-          payload
-        );
+  if (realtimeChannel) {
 
-        if (
-          payload.eventType === "INSERT"
-        ) {
+    supabaseClient.removeChannel(
+      realtimeChannel
+    );
 
-          allDonations.unshift(
-            payload.new
+  }
+
+
+  console.log(
+    "Memulai Realtime untuk creator:",
+    creatorData.id
+  );
+
+
+  realtimeChannel =
+    supabaseClient
+
+      .channel(
+        "creator-donations-" +
+        creatorData.id
+      )
+
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "donations",
+          filter:
+            "creator_id=eq." +
+            creatorData.id
+        },
+
+        function(payload) {
+
+          console.log(
+            "🔥 REALTIME EVENT:",
+            payload
           );
 
-        }
 
-        else if (
-          payload.eventType === "UPDATE"
-        ) {
+          /* =========================
+             INSERT
+          ========================= */
 
-          const index =
-            allDonations.findIndex(
-              function(donation) {
+          if (
+            payload.eventType === "INSERT"
+          ) {
 
-                return donation.id ===
-                  payload.new.id;
-
-              }
+            allDonations.unshift(
+              payload.new
             );
 
-          if (index !== -1) {
+          }
 
-            allDonations[index] =
-              payload.new;
+
+          /* =========================
+             UPDATE
+          ========================= */
+
+          else if (
+            payload.eventType === "UPDATE"
+          ) {
+
+            const index =
+              allDonations.findIndex(
+                function(donation) {
+
+                  return (
+                    donation.id ===
+                    payload.new.id
+                  );
+
+                }
+              );
+
+
+            if (index !== -1) {
+
+              allDonations[index] =
+                payload.new;
+
+            } else {
+
+              allDonations.unshift(
+                payload.new
+              );
+
+            }
+
+          }
+
+
+          /* =========================
+             DELETE
+          ========================= */
+
+          else if (
+            payload.eventType === "DELETE"
+          ) {
+
+            allDonations =
+              allDonations.filter(
+                function(donation) {
+
+                  return (
+                    donation.id !==
+                    payload.old.id
+                  );
+
+                }
+              );
+
+          }
+
+
+          /* =========================
+             UPDATE UI
+          ========================= */
+
+          updateStatistics();
+
+          updateChart();
+
+          renderDonations();
+
+        }
+      )
+
+      .subscribe(
+        function(status) {
+
+          console.log(
+            "📡 Realtime status:",
+            status
+          );
+
+
+          if (
+            status === "SUBSCRIBED"
+          ) {
+
+            console.log(
+              "✅ REALTIME TERHUBUNG!"
+            );
+
+          }
+
+
+          if (
+            status === "CHANNEL_ERROR"
+          ) {
+
+            console.error(
+              "❌ REALTIME CHANNEL ERROR"
+            );
+
+          }
+
+
+          if (
+            status === "TIMED_OUT"
+          ) {
+
+            console.error(
+              "⏰ REALTIME TIMEOUT"
+            );
 
           }
 
         }
-
-        else if (
-          payload.eventType === "DELETE"
-        ) {
-
-          allDonations =
-            allDonations.filter(
-              function(donation) {
-
-                return donation.id !==
-                  payload.old.id;
-
-              }
-            );
-
-        }
-
-        updateStatistics();
-
-        updateChart();
-
-        renderDonations();
-
-      }
-    )
-    .subscribe(
-      function(status) {
-
-        console.log(
-          "Realtime status:",
-          status
-        );
-
-      }
-    );
+      );
 
 }
+              
 
   
 /* =========================================
