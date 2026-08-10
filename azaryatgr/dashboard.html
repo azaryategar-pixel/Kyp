@@ -2136,6 +2136,7 @@ function toggleDonationList() {
 
   if (isHidden) {
 
+    // BUKA DONASI
     content.style.display = "block";
 
     button.textContent = "▲";
@@ -2148,7 +2149,82 @@ function toggleDonationList() {
       "Tutup daftar donasi"
     );
 
+    // Simpan status: TERBUKA
+    localStorage.setItem(
+      "kypDonationListHidden",
+      "false"
+    );
+
   } else {
+
+    // TUTUP DONASI
+    content.style.display = "none";
+
+    button.textContent = "▼";
+
+    button.title =
+      "Buka daftar donasi";
+
+    button.setAttribute(
+      "aria-label",
+      "Buka daftar donasi"
+    );
+
+    // Simpan status: TERSEMBUNYI
+    localStorage.setItem(
+      "kypDonationListHidden",
+      "true"
+    );
+
+  }
+
+}
+
+function loadDonationListState() {
+
+  const content =
+    document.getElementById(
+      "donationContent"
+    );
+
+  const button =
+    document.getElementById(
+      "donationListToggle"
+    );
+
+  if (!content || !button) {
+    return;
+  }
+
+
+  const savedState =
+    localStorage.getItem(
+      "kypDonationListHidden"
+    );
+
+
+  // Kalau belum pernah ada pilihan,
+  // default-nya TERBUKA
+  if (savedState === null) {
+
+    content.style.display = "block";
+
+    button.textContent = "▲";
+
+    button.title =
+      "Tutup daftar donasi";
+
+    button.setAttribute(
+      "aria-label",
+      "Tutup daftar donasi"
+    );
+
+    return;
+  }
+
+
+  // Kalau terakhir kali HIDE
+  if (savedState === "true") {
 
     content.style.display = "none";
 
@@ -2162,10 +2238,24 @@ function toggleDonationList() {
       "Buka daftar donasi"
     );
 
+    return;
   }
 
+
+  // Kalau terakhir kali UNHIDE
+  content.style.display = "block";
+
+  button.textContent = "▲";
+
+  button.title =
+    "Tutup daftar donasi";
+
+  button.setAttribute(
+    "aria-label",
+    "Tutup daftar donasi";
+
 }
-  
+
 function exportCSV() {
 
   if (
@@ -2281,6 +2371,7 @@ function exportCSV() {
    START
 ========================================= */
 
+loadDonationListState();
 loadDashboard();
 
 </script>
