@@ -290,6 +290,35 @@ body {
   font-size: 20px;
 }
 
+.donation-title-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* TOMBOL BUKA/TUTUP DONASI */
+  
+.donation-list-toggle {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #292933;
+  border-radius: 8px;
+  background: #18181f;
+  color: #a1a1aa;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 14px;
+}
+
+.donation-list-toggle:hover {
+  background: #22222b;
+  color: white;
+}
+  
 /* =========================
    FILTER
 ========================= */
@@ -796,10 +825,27 @@ body {
 
     <div class="card-header-top">
 
-  <h2>
-    Donasi
-  </h2>
+  <!-- BAGIAN KIRI -->    
+  <div class="donation-title-toggle">
 
+    <h2>
+      Donasi
+    </h2>
+
+    <button
+      type="button"
+      class="donation-list-toggle"
+      onclick="toggleDonationList()"
+      id="donationListToggle"
+      title="Tutup daftar donasi"
+      aria-label="Tutup daftar donasi"
+    >
+      ▲
+    </button>
+
+  </div>
+
+  <!-- BAGIAN KANAN -->
   <div class="header-donation-actions">
 
     <button
@@ -824,35 +870,35 @@ body {
 
 </div>
 
-    <div class="filters">
+    <div id="donationContent">
 
-  <input
-    type="text"
-    id="searchInput"
-    placeholder="Cari nama atau pesan..."
-    oninput="renderDonations()"
-  >
+  <div class="filters">
 
-  <select
-    id="statusFilter"
-    onchange="renderDonations()"
-  >
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Cari nama atau pesan..."
+      oninput="renderDonations()"
+    >
 
-    <option value="all">
-      Semua
-    </option>
+    <select
+      id="statusFilter"
+      onchange="renderDonations()"
+    >
 
-    <option value="paid">
-      Paid
-    </option>
+      <option value="all">
+        Semua
+      </option>
 
-    <option value="pending">
-      Pending
-    </option>
+      <option value="paid">
+        Paid
+      </option>
 
-  </select>
+      <option value="pending">
+        Pending
+      </option>
 
-</div>
+    </select>
 
   </div>
 
@@ -864,6 +910,8 @@ body {
     </div>
 
   </div>
+
+</div>
 
 </div>
 
@@ -2065,6 +2113,59 @@ function showError(message) {
    EXPORT CSV
 ========================================= */
 
+function toggleDonationList() {
+
+  const content =
+    document.getElementById(
+      "donationContent"
+    );
+
+  const button =
+    document.getElementById(
+      "donationListToggle"
+    );
+
+  if (!content || !button) {
+    return;
+  }
+
+
+  const isHidden =
+    content.style.display === "none";
+
+
+  if (isHidden) {
+
+    content.style.display = "block";
+
+    button.textContent = "▲";
+
+    button.title =
+      "Tutup daftar donasi";
+
+    button.setAttribute(
+      "aria-label",
+      "Tutup daftar donasi"
+    );
+
+  } else {
+
+    content.style.display = "none";
+
+    button.textContent = "▼";
+
+    button.title =
+      "Buka daftar donasi";
+
+    button.setAttribute(
+      "aria-label",
+      "Buka daftar donasi"
+    );
+
+  }
+
+}
+  
 function exportCSV() {
 
   if (
