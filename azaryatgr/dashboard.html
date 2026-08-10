@@ -202,6 +202,10 @@ body {
   border-radius: 18px;
   padding: 20px;
   margin-bottom: 20px;
+
+  /* Lebar chart = 2 kotak statistik */
+  width: calc(50% - 7.5px);
+  margin-left: auto;
 }
 
 .chart-title {
@@ -581,88 +585,82 @@ body {
      STATISTICS
 ========================= -->
 
-<div class="stats">
+<div class="stat">
 
-
-  <div class="stat">
-
-    <div class="stat-title">
-      Total Donasi
-    </div>
-
-    <div
-      class="stat-value"
-      id="totalDonation"
-    >
-      Rp0
-    </div>
-
-    <div class="stat-small">
-      Semua transaksi berhasil
-    </div>
-
+  <div class="stat-title">
+    Total Donasi
   </div>
 
-
-  <div class="stat">
-
-    <div class="stat-title">
-      Jumlah Donasi
-    </div>
-
-    <div
-      class="stat-value"
-      id="donationCount"
-    >
-      0
-    </div>
-
-    <div class="stat-small">
-      Transaksi berhasil
-    </div>
-
+  <div
+    class="stat-value"
+    id="totalDonation"
+  >
+    Rp0
   </div>
 
-
-  <div class="stat">
-
-    <div class="stat-title">
-      Menunggu Pembayaran
-    </div>
-
-    <div
-      class="stat-value"
-      id="pendingCount"
-    >
-      0
-    </div>
-
-    <div class="stat-small">
-      Belum dibayar
-    </div>
-
+  <div class="stat-small">
+    Semua transaksi berhasil
   </div>
 
+</div>
 
-  <div class="stat">
+<div class="stat">
 
-    <div class="stat-title">
-      Donasi Hari Ini
-    </div>
-
-    <div
-      class="stat-value"
-      id="todayDonation"
-    >
-      Rp0
-    </div>
-
-    <div class="stat-small">
-      Transaksi hari ini
-    </div>
-
+  <div class="stat-title">
+    Jumlah Donasi
   </div>
 
+  <div
+    class="stat-value"
+    id="donationCount"
+  >
+    0
+  </div>
+
+  <div class="stat-small">
+    Transaksi berhasil
+  </div>
+
+</div>
+
+<div class="stat">
+
+  <div class="stat-title">
+    Menunggu Pembayaran
+  </div>
+
+  <div
+    class="stat-value"
+    id="pendingCount"
+  >
+    0
+  </div>
+
+  <div class="stat-small">
+    Belum dibayar
+  </div>
+
+</div>
+
+<div class="stat">
+
+  <div class="stat-title">
+    Donasi Hari Ini
+  </div>
+
+  <div
+    class="stat-value"
+    id="todayDonation"
+  >
+    Rp0
+  </div>
+
+  <div class="stat-small">
+    Transaksi hari ini
+  </div>
+
+</div>
+  
 <div class="stat">
 
   <div class="stat-title">
@@ -704,14 +702,6 @@ body {
   </div>
 
 </div>
-  
-
-</div>
-
-
-<!-- =========================
-     CHART
-========================= -->
 
 <div class="chart-card">
 
@@ -728,9 +718,8 @@ body {
     </div>
   </div>
 
-</div>
-
-
+</div>  
+  
 <!-- =========================
      DONATIONS
 ========================= -->
