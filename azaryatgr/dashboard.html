@@ -410,14 +410,6 @@ body {
    MOBILE
 ========================= */
 
-@media (max-width: 800px) {
-
-  .stats {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-}
-
 @media (max-width: 600px) {
 
   .container {
@@ -576,145 +568,164 @@ body {
 
 </div>
 
-
 <!-- =========================
      STATISTICS
 ========================= -->
 
-<div class="stat">
+<div class="stats">
 
-  <div class="stat-title">
-    Total Donasi
-  </div>
+  <!-- TOTAL DONASI -->
+  <div class="stat">
 
-  <div
-    class="stat-value"
-    id="totalDonation"
-  >
-    Rp0
-  </div>
-
-  <div class="stat-small">
-    Semua transaksi berhasil
-  </div>
-
-</div>
-
-<div class="stat">
-
-  <div class="stat-title">
-    Jumlah Donasi
-  </div>
-
-  <div
-    class="stat-value"
-    id="donationCount"
-  >
-    0
-  </div>
-
-  <div class="stat-small">
-    Transaksi berhasil
-  </div>
-
-</div>
-
-<div class="stat">
-
-  <div class="stat-title">
-    Menunggu Pembayaran
-  </div>
-
-  <div
-    class="stat-value"
-    id="pendingCount"
-  >
-    0
-  </div>
-
-  <div class="stat-small">
-    Belum dibayar
-  </div>
-
-</div>
-
-<div class="stat">
-
-  <div class="stat-title">
-    Donasi Hari Ini
-  </div>
-
-  <div
-    class="stat-value"
-    id="todayDonation"
-  >
-    Rp0
-  </div>
-
-  <div class="stat-small">
-    Transaksi hari ini
-  </div>
-
-</div>
-  
-<div class="stat">
-
-  <div class="stat-title">
-    Donasi Bulan Ini
-  </div>
-
-  <div
-    class="stat-value"
-    id="monthDonation"
-  >
-    Rp0
-  </div>
-
-  <div class="stat-small">
-    Transaksi berhasil
-  </div>
-
-</div>
-
-
-<div class="stat">
-
-  <div class="stat-title">
-    Donasi Terbesar
-  </div>
-
-  <div
-    class="stat-value"
-    id="largestDonation"
-  >
-    Rp0
-  </div>
-
-  <div
-    class="stat-small"
-    id="largestDonationName"
-  >
-    Belum ada donasi
-  </div>
-
-</div>
-
-<div class="chart-card">
-
-  <div class="chart-title">
-    Donasi 7 Hari Terakhir
-  </div>
-
-  <div
-    class="chart"
-    id="donationChart"
-  >
-    <div class="loading">
-      Memuat statistik...
+    <div class="stat-title">
+      Total Donasi
     </div>
+
+    <div
+      class="stat-value"
+      id="totalDonation"
+    >
+      Rp0
+    </div>
+
+    <div class="stat-small">
+      Semua transaksi berhasil
+    </div>
+
   </div>
 
-</div>  
+
+  <!-- JUMLAH DONASI -->
+  <div class="stat">
+
+    <div class="stat-title">
+      Jumlah Donasi
+    </div>
+
+    <div
+      class="stat-value"
+      id="donationCount"
+    >
+      0
+    </div>
+
+    <div class="stat-small">
+      Transaksi berhasil
+    </div>
+
+  </div>
+
+
+  <!-- MENUNGGU PEMBAYARAN -->
+  <div class="stat">
+
+    <div class="stat-title">
+      Menunggu Pembayaran
+    </div>
+
+    <div
+      class="stat-value"
+      id="pendingCount"
+    >
+      0
+    </div>
+
+    <div class="stat-small">
+      Belum dibayar
+    </div>
+
+  </div>
+
+
+  <!-- DONASI HARI INI -->
+  <div class="stat">
+
+    <div class="stat-title">
+      Donasi Hari Ini
+    </div>
+
+    <div
+      class="stat-value"
+      id="todayDonation"
+    >
+      Rp0
+    </div>
+
+    <div class="stat-small">
+      Transaksi hari ini
+    </div>
+
+  </div>
+
+
+  <!-- DONASI BULAN INI -->
+  <div class="stat">
+
+    <div class="stat-title">
+      Donasi Bulan Ini
+    </div>
+
+    <div
+      class="stat-value"
+      id="monthDonation"
+    >
+      Rp0
+    </div>
+
+    <div class="stat-small">
+      Transaksi berhasil
+    </div>
+
+  </div>
+
+
+  <!-- DONASI TERBESAR -->
+  <div class="stat">
+
+    <div class="stat-title">
+      Donasi Terbesar
+    </div>
+
+    <div
+      class="stat-value"
+      id="largestDonation"
+    >
+      Rp0
+    </div>
+
+    <div
+      class="stat-small"
+      id="largestDonationName"
+    >
+      Belum ada donasi
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       CHART 7 HARI
+  ========================= -->
+
+  <div class="chart-card">
+
+    <div class="chart-title">
+      Donasi 7 Hari Terakhir
+    </div>
+
+    <div
+      class="chart"
+      id="donationChart"
+    >
+      <div class="loading">
+        Memuat statistik...
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
   
 <!-- =========================
      DONATIONS
