@@ -331,20 +331,40 @@ body {
 .header-donation-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+}
+
+.export-button,
+.refresh-button {
+  height: 42px;
+  width: 84px;
+  border-radius: 10px;
+  background: #a855f7;
+  color: white;
+  border: 1px solid #a855f7;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: bold;
+  padding: 0;
 }
 
 .export-button {
-  width: 84px;
-  height: 42px;
-  background: #a855f7;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: bold;
   font-size: 14px;
-}  
+}
+
+.refresh-button {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.export-button:hover,
+.refresh-button:hover {
+  opacity: 0.9;
+}
   
 /* =========================
    DONATION
