@@ -2129,14 +2129,13 @@ function toggleDonationList() {
     return;
   }
 
-
   const isHidden =
     content.style.display === "none";
 
 
   if (isHidden) {
 
-    // BUKA DONASI
+    // BUKA
     content.style.display = "block";
 
     button.textContent = "▲";
@@ -2149,7 +2148,6 @@ function toggleDonationList() {
       "Tutup daftar donasi"
     );
 
-    // Simpan status: TERBUKA
     localStorage.setItem(
       "kypDonationListHidden",
       "false"
@@ -2157,7 +2155,7 @@ function toggleDonationList() {
 
   } else {
 
-    // TUTUP DONASI
+    // TUTUP
     content.style.display = "none";
 
     button.textContent = "▼";
@@ -2170,7 +2168,6 @@ function toggleDonationList() {
       "Buka daftar donasi"
     );
 
-    // Simpan status: TERSEMBUNYI
     localStorage.setItem(
       "kypDonationListHidden",
       "true"
@@ -2179,6 +2176,11 @@ function toggleDonationList() {
   }
 
 }
+
+
+/* =========================================
+   LOAD STATUS HIDE / UNHIDE
+========================================= */
 
 function loadDonationListState() {
 
@@ -2203,8 +2205,11 @@ function loadDonationListState() {
     );
 
 
-  // Kalau belum pernah ada pilihan,
-  // default-nya TERBUKA
+  /*
+     BELUM PERNAH MEMILIH
+     DEFAULT = TERBUKA
+  */
+
   if (savedState === null) {
 
     content.style.display = "block";
@@ -2223,7 +2228,10 @@ function loadDonationListState() {
   }
 
 
-  // Kalau terakhir kali HIDE
+  /*
+     TERAKHIR = HIDE
+  */
+
   if (savedState === "true") {
 
     content.style.display = "none";
@@ -2242,7 +2250,10 @@ function loadDonationListState() {
   }
 
 
-  // Kalau terakhir kali UNHIDE
+  /*
+     TERAKHIR = UNHIDE
+  */
+
   content.style.display = "block";
 
   button.textContent = "▲";
@@ -2252,7 +2263,8 @@ function loadDonationListState() {
 
   button.setAttribute(
     "aria-label",
-    "Tutup daftar donasi";
+    "Tutup daftar donasi"
+  );
 
 }
 
