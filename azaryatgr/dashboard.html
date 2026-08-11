@@ -1304,13 +1304,11 @@ async function loadDashboard() {
     ========================= */
 
     const {
-      data: creator,
-      error: creatorError
-    } = await supabaseClient
-
-      .from("profiles")
-
-      .select(
+  data: creator,
+  error: creatorError
+} = await supabaseClient
+  .from("profiles")
+  .select(
   "id, username, display_name, bio, avatar_url"
 )
 
@@ -1373,6 +1371,16 @@ async function loadDashboard() {
     ).textContent =
       creator.bio || "";
 
+const profileAvatar =
+  document.getElementById("profileAvatar");
+
+if (profileAvatar && creator.avatar_url) {
+  profileAvatar.src = creator.avatar_url;
+
+  profileAvatar.alt =
+    "Foto profil " +
+    (creator.display_name || creator.username);
+}
 
     /* =========================
        DONATIONS
