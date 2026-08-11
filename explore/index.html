@@ -11,6 +11,8 @@ content="width=device-width, initial-scale=1.0"
 
 <title>Explore Creator - Kyp</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
 <style>
 
 * {
@@ -102,6 +104,16 @@ justify-content: center;
 
 font-weight: bold;
 font-size: 20px;
+
+overflow: hidden;
+flex-shrink: 0;
+}
+
+.avatar img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+display: block;
 }
 
 .name {
@@ -199,175 +211,6 @@ onkeyup="searchCreator()"
 class="creators"
 id="creators"
 >
-
-
-<!-- CREATOR 1 -->
-
-<div
-class="creator"
-data-name="azaryatgr content creator"
->
-
-<div class="top">
-
-<div class="avatar">
-A
-</div>
-
-<div>
-
-<div class="name">
-Azaryatgr ✓
-</div>
-
-<div class="username">
-@azaryatgr
-</div>
-
-</div>
-
-</div>
-
-<p class="bio">
-Content Creator
-</p>
-
-<a
-class="donate"
-href="../azaryatgr/"
->
-Dukung Creator
-</a>
-
-</div>
-
-
-<!-- CREATOR 2 -->
-
-<div
-class="creator"
-data-name="naya music creator"
->
-
-<div class="top">
-
-<div class="avatar">
-N
-</div>
-
-<div>
-
-<div class="name">
-Naya
-</div>
-
-<div class="username">
-@naya
-</div>
-
-</div>
-
-</div>
-
-<p class="bio">
-Music & Content Creator
-</p>
-
-<a
-class="donate"
-href="#"
-onclick="comingSoon(event)"
->
-Dukung Creator
-</a>
-
-</div>
-
-
-<!-- CREATOR 3 -->
-
-<div
-class="creator"
-data-name="reno gaming creator"
->
-
-<div class="top">
-
-<div class="avatar">
-R
-</div>
-
-<div>
-
-<div class="name">
-Reno
-</div>
-
-<div class="username">
-@reno
-</div>
-
-</div>
-
-</div>
-
-<p class="bio">
-Gaming & Entertainment
-</p>
-
-<a
-class="donate"
-href="#"
-onclick="comingSoon(event)"
->
-Dukung Creator
-</a>
-
-</div>
-
-
-<!-- CREATOR 4 -->
-
-<div
-class="creator"
-data-name="dinda art creator"
->
-
-<div class="top">
-
-<div class="avatar">
-D
-</div>
-
-<div>
-
-<div class="name">
-Dinda
-</div>
-
-<div class="username">
-@dinda
-</div>
-
-</div>
-
-</div>
-
-<p class="bio">
-Art & Creative Content
-</p>
-
-<a
-class="donate"
-href="#"
-onclick="comingSoon(event)"
->
-Dukung Creator
-</a>
-
-</div>
-
-
 </div>
 
 
@@ -380,49 +223,364 @@ Powered by Kyp.
 
 <script>
 
-function searchCreator() {
+/* =========================================
+   SUPABASE
+========================================= */
 
-const keyword =
-document
-.getElementById("search")
-.value
-.toLowerCase();
+const SUPABASE_URL =
+"https://qgjcnxremlucixexaryj.supabase.co";
 
-const creators =
-document
-.querySelectorAll(".creator");
+const SUPABASE_KEY =
+"sb_publishable_MUaoxjo8pjoCS2Jj7BVnAg_EoJXD8XD";
 
-creators.forEach(function(creator) {
-
-const name =
-creator.getAttribute("data-name");
-
-if (name.includes(keyword)) {
-
-creator.style.display = "block";
-
-} else {
-
-creator.style.display = "none";
-
-}
-
-});
-
-}
-
-
-function comingSoon(event) {
-
-event.preventDefault();
-
-alert(
-"Creator ini akan segera tersedia di Kyp."
+const supabaseClient =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
 );
 
+
+/* =========================================
+   DATA CREATOR
+========================================= */
+
+let allCreators = [];
+
+
+/* =========================================
+   LOAD CREATORS
+========================================= */
+
+async function loadCreators() {
+
+    const container =
+        document.getElementById("creators");
+
+    container.innerHTML = `
+        <div style="
+            grid-column: 1 / -1;
+            text-align: center;
+            color: #71717a;
+            padding: 40px;
+        ">
+            Memuat creator...
+        </div>
+    `;
+
+
+    try {
+
+        const {
+            data,
+            error
+        } = await supabaseClient
+
+            .from("profiles")
+
+            .select(`
+                id,
+                username,
+                display_name,
+                bio,
+                avatar_url
+            `)
+
+            .order(
+                "display_name",
+                {
+                    ascending: true
+                }
+            );
+
+
+        if (error) {
+
+            console.error(
+                "Gagal mengambil creator:",
+                error
+            );
+
+            container.innerHTML = `
+                <div style="
+                    grid-column: 1 / -1;
+                    text-align: center;
+                    color: #f87171;
+                    padding: 40px;
+                ">
+                    Gagal memuat creator.
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        allCreators =
+            data || [];
+
+        renderCreators(
+            allCreators
+        );
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        container.innerHTML = `
+            <div style="
+                grid-column: 1 / -1;
+                text-align: center;
+                color: #f87171;
+                padding: 40px;
+            ">
+                Terjadi kesalahan saat memuat creator.
+            </div>
+        `;
+
+    }
+
 }
 
+
+/* =========================================
+   RENDER CREATOR
+========================================= */
+
+function renderCreators(
+    creators
+) {
+
+    const container =
+        document.getElementById(
+            "creators"
+        );
+
+
+    if (!creators.length) {
+
+        container.innerHTML = `
+            <div style="
+                grid-column: 1 / -1;
+                text-align: center;
+                color: #71717a;
+                padding: 40px;
+            ">
+                Belum ada creator.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        creators.map(
+            function(creator) {
+
+                const name =
+                    creator.display_name ||
+                    creator.username ||
+                    "Creator";
+
+
+                const username =
+                    creator.username ||
+                    "";
+
+
+                const bio =
+                    creator.bio ||
+                    "Content Creator";
+
+
+                const initial =
+                    name
+                        .charAt(0)
+                        .toUpperCase();
+
+
+                const avatar =
+                    creator.avatar_url;
+
+
+                const avatarHTML =
+                    avatar
+                    ?
+                    `
+                        <img
+                            src="${escapeHtml(avatar)}"
+                            alt="${escapeHtml(name)}"
+                        >
+                    `
+                    :
+                    initial;
+
+
+                return `
+
+                    <div
+                        class="creator"
+                        data-name="
+                            ${escapeHtml(
+                                (
+                                    name +
+                                    " " +
+                                    username +
+                                    " " +
+                                    bio
+                                ).toLowerCase()
+                            )}
+                        "
+                    >
+
+                        <div class="top">
+
+                            <div class="avatar">
+
+                                ${avatarHTML}
+
+                            </div>
+
+
+                            <div>
+
+                                <div class="name">
+
+                                    ${escapeHtml(
+                                        name
+                                    )}
+
+                                </div>
+
+
+                                <div class="username">
+
+                                    @${escapeHtml(
+                                        username
+                                    )}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <p class="bio">
+
+                            ${escapeHtml(
+                                bio
+                            )}
+
+                        </p>
+
+
+                        <a
+                            class="donate"
+                            href="../${encodeURIComponent(username)}/"
+                        >
+                            Dukung Creator
+                        </a>
+
+                    </div>
+
+                `;
+
+            }
+        ).join("");
+
+}
+
+
+/* =========================================
+   SEARCH
+========================================= */
+
+function searchCreator() {
+
+    const keyword =
+        (
+            document
+                .getElementById(
+                    "search"
+                )
+                .value || ""
+        )
+        .toLowerCase()
+        .trim();
+
+
+    const filtered =
+        allCreators.filter(
+            function(creator) {
+
+                const text = (
+
+                    creator.display_name ||
+                    "" +
+
+                    " " +
+
+                    creator.username ||
+                    "" +
+
+                    " " +
+
+                    creator.bio ||
+                    ""
+
+                ).toLowerCase();
+
+
+                return text.includes(
+                    keyword
+                );
+
+            }
+        );
+
+
+    renderCreators(
+        filtered
+    );
+
+}
+
+
+/* =========================================
+   ESCAPE HTML
+========================================= */
+
+function escapeHtml(
+    text
+) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.textContent =
+        text ?? "";
+
+
+    return div.innerHTML;
+
+}
+
+
+/* =========================================
+   START
+========================================= */
+
+loadCreators();
+
 </script>
+
 
 </body>
 </html>
