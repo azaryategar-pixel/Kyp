@@ -151,7 +151,7 @@ body {
 
 .main-button {
   display: inline-block;
-  margin-top: 18px;
+  margin-top: 0;
   background: white;
   color: black;
   text-decoration: none;
@@ -196,7 +196,6 @@ body {
 
 .profile-actions {
   display: flex;
-  justify-content: flex-end;
   align-items: center;
   gap: 8px;
   margin-top: 18px;
@@ -735,15 +734,17 @@ body {
 
   </div>
 
- <a
-  class="main-button"
-  id="donationLinkButton"
-  href="../azaryatgr/index.html"
->
-  Lihat Halaman Donasi
-</a>
+ <div class="profile-actions">
 
-<div class="profile-actions">
+  <div class="profile-actions">
+
+  <a
+    class="main-button"
+    id="donationLinkButton"
+    href="../azaryatgr/index.html"
+  >
+    Lihat Halaman Donasi
+  </a>
 
   <button
     type="button"
