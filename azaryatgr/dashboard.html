@@ -118,11 +118,29 @@ body {
 
 .profile-top {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
 }
 
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.profile-info {
+  width: 100%;
+}
+  
 .profile-name {
   font-size: 25px;
   font-weight: bold;
@@ -198,7 +216,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: 18px;
+  margin-top: 20px;
 }
 
 .profile-copy-button,
@@ -704,39 +722,45 @@ body {
   
   <div class="profile-top">
 
-    <div>
+  <div class="profile-avatar">
+    <img
+      id="profileAvatar"
+      src=""
+      alt="Foto profil creator"
+    >
+  </div>
 
-      <div
-        class="profile-name"
-        id="profileName"
-      >
-        Memuat...
-      </div>
+  <div class="profile-info">
 
-      <div
-        class="username"
-        id="profileUsername"
-      >
-        @azaryatgr
-      </div>
+    <div
+      class="profile-name"
+      id="profileName"
+    >
+      Memuat...
+    </div>
 
-      <div
-        class="bio"
-        id="profileBio"
-      >
-      </div>
+    <div
+      class="username"
+      id="profileUsername"
+    >
+      @azaryatgr
+    </div>
 
-      <div class="status">
-        ● Creator Aktif
-      </div>
+    <div
+      class="bio"
+      id="profileBio"
+    >
+    </div>
 
+    <div class="status">
+      ● Creator Aktif
     </div>
 
   </div>
 
- <div class="profile-actions">
+</div>
 
-  <div class="profile-actions">
+<div class="profile-actions">
 
   <a
     class="main-button"
@@ -1287,8 +1311,8 @@ async function loadDashboard() {
       .from("profiles")
 
       .select(
-        "id, username, display_name, bio"
-      )
+  "id, username, display_name, bio, avatar_url"
+)
 
       .eq(
         "username",
