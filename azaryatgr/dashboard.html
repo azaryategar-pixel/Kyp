@@ -691,17 +691,52 @@ body {
     display: flex;
     align-items: center;
     gap: 14px;
-    flex-wrap: wrap;
+    width: 100%;
 }
 
+/* Tombol utama */
 .profile-actions .main-button {
-    flex: 1;
-    min-width: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 44px;
+    padding: 12px 22px;
 }
 
+/* Tombol Salin & Bagikan */
 .profile-copy-button,
 .profile-share-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     white-space: nowrap;
+    min-height: 44px;
+    padding: 12px 10px;
+}
+
+
+/* =========================
+   DESKTOP
+========================= */
+
+@media (min-width: 601px) {
+
+    .profile-actions {
+        justify-content: flex-start;
+    }
+
+    .profile-actions .main-button {
+        flex: 0 0 auto;
+        min-width: 280px;
+    }
+
+    .profile-copy-button,
+    .profile-share-button {
+        flex: 0 0 auto;
+        min-width: 110px;
+    }
+
 }
 
 
@@ -715,21 +750,22 @@ body {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 10px;
-        width: 100%;
     }
 
     .profile-actions .main-button {
         grid-column: 1 / -1;
         width: 100%;
         min-width: 0;
+        justify-content: center;
+        text-align: center;
     }
 
     .profile-copy-button,
     .profile-share-button {
         width: 100%;
         min-width: 0;
-        padding: 14px 10px;
-        font-size: 14px;
+        justify-content: center;
+        text-align: center;
     }
 
 }
