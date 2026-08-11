@@ -13,6 +13,17 @@
     padding: 0;
 }
 
+/* Hilangkan tombol naik/turun pada input nominal */
+#amount {
+    -moz-appearance: textfield;
+}
+
+#amount::-webkit-outer-spin-button,
+#amount::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+    
 body {
     font-family: Arial, sans-serif;
     background: #0b0b0f;
@@ -302,9 +313,11 @@ Rp500K
 <label>Nominal Donasi</label>
 
 <input
-id="amount"
-type="number"
-placeholder="Contoh: 50000"
+  type="number"
+  id="amount"
+  placeholder="Contoh: 50000"
+  min="0"
+  step="1"
 >
 
 
