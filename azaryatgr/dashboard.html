@@ -106,6 +106,7 @@ body {
 ========================= */
 
 .profile {
+  position: relative;
   background: #15151b;
   border: 1px solid #292933;
   border-radius: 18px;
@@ -157,6 +158,82 @@ body {
   font-weight: bold;
 }
 
+/* =========================
+   PROFILE ACTIONS
+========================= */
+
+.profile-settings {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #18181f;
+  border: 1px solid #292933;
+  border-radius: 10px;
+
+  color: white;
+  text-decoration: none;
+
+  font-size: 20px;
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.profile-settings:hover {
+  background: #22222b;
+  border-color: #a855f7;
+}
+
+.profile-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.profile-copy-button,
+.profile-share-button {
+  height: 42px;
+  padding: 0 14px;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  font-size: 14px;
+  font-weight: bold;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-copy-button {
+  background: #a855f7;
+  color: white;
+  border: 1px solid #a855f7;
+}
+
+.profile-share-button {
+  background: #18181f;
+  color: white;
+  border: 1px solid #292933;
+}
+
+.profile-copy-button:hover,
+.profile-share-button:hover {
+  opacity: 0.9;
+}
+  
 /* =========================
    STATISTICS
 ========================= */
@@ -500,6 +577,16 @@ body {
 
 @media (max-width: 600px) {
 
+  .profile-actions {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .profile-copy-button,
+  .profile-share-button {
+    flex: 1;
+  }
+  
   .container {
     padding: 18px 12px 40px;
   }
@@ -570,43 +657,6 @@ body {
     K<span>yp</span>
   </div>
 
-  <div class="header-buttons">
-
-    <a href="../index.html">
-      Beranda
-    </a>
-
-    <a
-      href="#"
-      id="donationLinkButton"
-    >
-      Halaman Donasi
-    </a>
-
-    <a href="settings.html">
-      Pengaturan
-    </a>
-
-    <button
-      type="button"
-      class="header-copy-button"
-      id="copyDonationLink"
-      onclick="copyDonationLink()"
-    >
-      🔗 Salin Link
-    </button>
-  
-    <button
-      type="button"
-      class="header-share-button"
-      id="shareDonationLink"
-      onclick="shareDonationLink()"
-    >
-      📤 Bagikan
-    </button>
-    
-  </div>
-
 </div>
 
 <!-- =========================
@@ -615,6 +665,15 @@ body {
 
 <div class="profile">
 
+ <a
+  href="settings.html"
+  class="profile-settings"
+  title="Pengaturan"
+  aria-label="Pengaturan"
+>
+  ⚙
+</a> 
+  
   <div class="profile-top">
 
     <div>
@@ -647,13 +706,36 @@ body {
 
   </div>
 
-  <a
-    class="main-button"
-    href="../azaryatgr/index.html"
-  >
-    Lihat Halaman Donasi
-  </a>
+ <a
+  class="main-button"
+  id="donationLinkButton"
+  href="../azaryatgr/index.html"
+>
+  Lihat Halaman Donasi
+</a>
 
+<div class="profile-actions">
+
+  <button
+    type="button"
+    class="profile-copy-button"
+    id="copyDonationLink"
+    onclick="copyDonationLink()"
+  >
+    🔗 Salin Link
+  </button>
+
+  <button
+    type="button"
+    class="profile-share-button"
+    id="shareDonationLink"
+    onclick="shareDonationLink()"
+  >
+    📤 Bagikan
+  </button>
+
+</div>
+  
 </div>
 
 <!-- =========================
